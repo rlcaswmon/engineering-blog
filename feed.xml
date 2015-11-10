@@ -7,6 +7,18 @@
         <atom:link href="http://engineering.monsanto.com/feed.xml" rel="self" type="application/rss+xml" />
         
             <item>
+                <title>What Makes a Data Scientist - Part 1</title>
+                
+                
+                    <description>&lt;p&gt;Reposted from &lt;a href=&quot;https://www.linkedin.com/pulse/what-makes-data-scientist-part-1-seth-dobrin?trk=prof-post&quot;&gt;LinkedIn&lt;/a&gt;.&lt;/p&gt;
+</description>
+                
+                <pubDate>Mon, 09 Nov 2015 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2015/11/09/what-makes-a-data-scientist-part-1/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/11/09/what-makes-a-data-scientist-part-1/</guid>
+            </item>
+        
+            <item>
                 <title>AWS re:Invent 2015</title>
                 
                 
@@ -149,18 +161,6 @@ features you might regularly use.&lt;/p&gt;
                 <pubDate>Fri, 31 Jul 2015 00:00:00 -0500</pubDate>
                 <link>http://engineering.monsanto.com/2015/07/31/implicit-conversions/</link>
                 <guid isPermaLink="true">http://engineering.monsanto.com/2015/07/31/implicit-conversions/</guid>
-            </item>
-        
-            <item>
-                <title>Cloud Foundry Portal</title>
-                
-                
-                    <description>&lt;p&gt;This segment of our open source Cloud Foundry (CF) toolbox series introduces &lt;a href=&quot;https://github.com/MonsantoCo/cf-portal&quot;&gt;CF-Portal&lt;/a&gt;, a basic read-only view into your Cloud Foundry application landscape.  CF-Portal was one of the first applications we made for our CF toolbox, since unlike the branded CF offerings, the community project lacks any pre-packaged UI.&lt;/p&gt;
-</description>
-                
-                <pubDate>Wed, 29 Jul 2015 00:00:00 -0500</pubDate>
-                <link>http://engineering.monsanto.com/2015/07/29/cf-portal/</link>
-                <guid isPermaLink="true">http://engineering.monsanto.com/2015/07/29/cf-portal/</guid>
             </item>
         
     </channel>

@@ -11,18 +11,18 @@
         
     
     <meta property="og:site_name" content="Monsanto Engineering Blog" />
-    <meta property="og:title" content="Cloud Different" />
-    <meta property="og:description" content="The cloud present new opportunities but also new challenges. Learn how to create successful solutions in the cloud using five architectural principles." />
-    <meta property="og:url" content="http://engineering.monsanto.com/2015/10/06/cloud-different/" />
-    <meta property="og:image" content="http://engineering.monsanto.com/img/mon-maui.jpg" />
-    <meta name="description" content="The cloud present new opportunities but also new challenges. Learn how to create successful solutions in the cloud using five architectural principles." />
+    <meta property="og:title" content="What Makes a Data Scientist - Part 1" />
+    <meta property="og:description" content="When having conversations about data and analytics, the new fad is hiring Data Scientists. But I find that most people don't know what that means, and most people we call Data Scientists are not." />
+    <meta property="og:url" content="http://engineering.monsanto.com/2015/11/09/what-makes-a-data-scientist-part-1/" />
+    <meta property="og:image" content="http://engineering.monsanto.com/img/mon-ankeny.jpg" />
+    <meta name="description" content="When having conversations about data and analytics, the new fad is hiring Data Scientists. But I find that most people don't know what that means, and most people we call Data Scientists are not." />
     
 
     <link rel="shortcut icon" href="/favicon.ico" />
 
-    <title>Cloud Different - Engineering at Monsanto</title>
+    <title>What Makes a Data Scientist - Part 1 - Engineering at Monsanto</title>
 
-    <link rel="canonical" href="http://engineering.monsanto.com/2015/10/06/cloud-different/" />
+    <link rel="canonical" href="http://engineering.monsanto.com/2015/11/09/what-makes-a-data-scientist-part-1/" />
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
@@ -94,17 +94,17 @@
 
 
     <!-- Post Header -->
-<header class="intro-header" style="background-image: url('/img/mon-maui.jpg')">
+<header class="intro-header" style="background-image: url('/img/mon-ankeny.jpg')">
     <div class="heading-underlay">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Cloud Different</h1>
+                        <h1>What Makes a Data Scientist - Part 1</h1>
                         
-                        <h2 class="subheading">A new architecture for a new platform</h2>
+                        <h2 class="subheading">Really, what is a Data Scientist?</h2>
                         
-                        <span class="meta">Posted  by David Dooling on October 6, 2015</span>
+                        <span class="meta">Posted  by Seth Dobrin on November 9, 2015</span>
                     </div>
                 </div>
             </div>
@@ -118,115 +118,92 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-body">
 
-				<p>Over the past several years, cloud computing of all types has gained a
-lot of momentum. Because of the massive increase in mobile computing,
-i.e., phones and tablets, more and more people are consuming cloud
-services like GMail, DropBox, Instagram, and Office365. These Software
-as a Service (SaaS) solutions are convenient for people on the go
-because the information they need is always easily accessible through
-a web browser or mobile app. This is possible because the user&#39;s data
-and preferences are stored &quot;in the cloud&quot;, using servers and services
-managed by someone else, typically the operator of the SaaS
-solution. While these SaaS solutions are convenient for end users,
-they do not allow for much customization. To develop custom
-capabilities in the cloud, you must turn to Infrastructure as a
-Service (IaaS).</p>
+				<p>Reposted from <a href="https://www.linkedin.com/pulse/what-makes-data-scientist-part-1-seth-dobrin?trk=prof-post">LinkedIn</a>.</p>
 
-<p>IaaS consists of virtualized compute, storage, and networking managed
-by someone else that you can consume, typically on a pay-per-use
-basis. The automation enabled by consuming infrastructure via services
-allows you to spin up an entire data-center-like environment in less
-than ten minutes! Many IaaS providers like Amazon Web Services,
-Microsoft Azure, and Google Cloud Platform provide additional
-capabilities like managed message queues, notifications, and even
-databases delivered as a service. Using these building blocks of IT,
-you can rapidly create solutions for your customers without purchasing
-a single piece of hardware.</p>
+<p>When having conversations about data and analytics, the new fad is
+hiring Data Scientists. But I find that most people don&#39;t know what
+that means, and most people we call Data Scientists are not.
+Typically, individuals who are called Data Scientists fall into one of
+three camps.  The first and least prevalent is a real Data
+Scientist. The second camp is composed of database engineers,
+architects, or data analysts. And the third is comprised of
+statisticians and/or mathematicians. That&#39;s not to say that the two
+latter camps can&#39;t become Data Scientists, but to do so requires a
+willingness to learn and take risks, as well as an investment in time
+by the individual and her employer.</p>
 
-<p>So what&#39;s the catch? While self-service infrastructure and paying only
-for what you use sounds great, typically cloud infrastructure is less
-reliable and over time becomes more expensive than on-site
-resources. To reap the benefits of IaaS, you must think differently
-about your solution architecture. If you don&#39;t, you&#39;ll end up with a
-less reliable, more expensive solution.</p>
+<p>So what is a Data Scientist? She is an individual who possesses domain
+knowledge in a relevant area, a spectrum of skills and experiences
+that range from raw data architecture to what I will call data
+journalism.  Perhaps even more importantly this breadth of skills and
+experiences needs to be with modern, relevant technologies and
+techniques. These skills and experiences are as follows and in future
+posts I will dig into what each of these mean and why some combination
+of them are required. The specific categories of skills and
+experiences are as follows: database architecture &amp; engineering, data
+intake &amp; transformation, ontology &amp; metadata, statistical
+transformation &amp; analytics foundation, descriptive analytics &amp;
+reporting, model-based analytics and finally data journalism. Data
+Scientists are the data and analytics version of an Agile Development
+team member with E-shaped skills. This means she should have a depth
+of skills in 2-3 areas, a breadth of skills that spans most of the
+gamut of skills listed above and the ability to execute. If you have
+separate data and analytics teams in your organization, you need Data
+Scientists in both organizations. The depth of her skills in
+descriptive analytics &amp; reporting determines which group she belongs
+in, a data team or an analytics team.</p>
 
-<p><img src="/img/cloud-different.jpg" alt="Cloud Different"></p>
+<p>As mentioned above the skills and experiences need to be with relevant
+and modern technologies and techniques. What do I mean by this? A Data
+Scientist possesses an understanding of legacy type platforms, such as
+relation databases management systems (RDBMS) and data warehouses
+(DW), and she is able to manage processes such as extract, transform
+and load (ETL). Additionally, she will have a foundation in
+traditional supervised and unsupervised statistical methods. While
+these are valuable skills and an important part of her toolbox, they
+are only the beginning. Her toolbox should also consist of an
+understanding and depth of skill in the so called &quot;Not only SQL&quot;, or
+NoSQL, platforms. Theses include columnar data stores, document
+stores, key-value stores, graph databases, and finally multi-model
+databases.  More modern analytics skill include techniques such as
+machine learning, neural networks, and operational research.  To
+leverage most of these modern tools, she needs to know at least one
+programming language, and preferably more, such as Python, R, Java, or
+Scala.  All of these skills and experiences should be on web-scale,
+cloud-based environments.</p>
 
-<p>To avoid these pitfalls, when architecting solutions in the cloud, you
-must design with the following five principles in mind.</p>
-
-<ol>
-<li> <strong>Automation</strong>: You must automate every aspect of your
-infrastructure and solution, ensuring your solution can be spun up
-reliably, rapidly, and repeatably.</li>
-<li> <strong>Fault Tolerant</strong>: Since cloud infrastructure is less reliable,
-you must create solutions that are fault tolerant, responding to
-and recovering from failures automatically.</li>
-<li> <strong>Horizontally Scalable</strong>: Your solution must be horizontally
-scalable so it can scale up to meet demand and scale back down to
-control costs.</li>
-<li> <strong>Secure</strong>: You must secure every aspect of your solution
-environment. Security is your job, not someone else&#39;s!</li>
-<li> <strong>Cost Effective</strong>: You have to use commodity, cost-effective
-components so that executing on the first four principles does not
-break the bank.</li>
-</ol>
-
-<p>Done properly, cloud solutions can be more reliable and less costly.</p>
-
-<p>Just as how you architect solutions in the cloud must change,
-continuing to use the technology and processes that have been
-optimized for internal operations is not going to lead to success in
-the cloud.  At Monsanto, when we asked ourselves how we could be
-successful in the cloud, we knew our people would have to adopt new
-technologies and develop more agile processes. We would have to
-transition from different teams managing different part of a custom
-applications life cycle, i.e., one team for development, another for
-testing, another for operation, and yet another for support, we should
-have teams operating in a DevOps model, owning a capability from
-cradle to grave and providing it as a service to their customers.</p>
-
-<p>The cloud presents an amazing opportunity to increase the speed with
-which companies can deliver capabilities to their customers. To
-capitalize on the opportunity, you must embrace the cloud&#39;s
-differences and use them to your advantage.  The architectural
-principles outlined above coupled with more agile process and a
-holistic DevOps model allow teams to create solutions that are more
-secure, more reliable, more performant, and more cost effective than
-on-premises solutions.  In addition, your teams will be able to
-deliver solutions that delight your users much more quickly than
-before.</p>
-
-<p>To learn more about how to architect &quot;cloud first&quot; solutions, learn
-about our journey to the cloud, and see how we use some of the tools
-and libraries we have open sourced, be sure to attend our talk at AWS
-re:Invent,
-<a href="https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=2547" title="AWS re:Invent Cloud First talk">Cloud First: New Architecture for New Infrastructure</a>, this
-Thursday 8 October 2015 at 2:45 p.m. PT in Palazzo N.</p>
+<p>Wow what a list and what expectations! It is important to remember
+that very few people, if any, will master the entire spectrum of
+skills, platforms, and techniques. What is important is that anyone
+you call a Data Scientist has a breadth of skills and experiences that
+span from data architecture to data journalism with depth in at least
+2-3 areas. As technologies change it is important that they be a
+learner so they can maintain their understanding of relevant
+technologies.</p>
 
 
                 
 
                         <div class="post-signature multiple">
-                            posted on October 6, 2015 by <br>
+                            posted on November 9, 2015 by <br>
                         
 
 
                             <div class="author">
                                 
-                                <img src="https://avatars1.githubusercontent.com/u/57881?v=3&s=40">
+                                <img src="https://avatars1.githubusercontent.com/u/9697696?v=3&s=40">
                                 
                                     <span>
-                                        David Dooling
+                                        Seth Dobrin
                                     </span>
 
                                 
-                                <a  href="https://twitter.com/ddgenome">
+                                <a  href="https://twitter.com/sdobrin">
                                     <i class="fa fa-twitter fa-1x "></i>
                                 </a>
                                 
                                 
-                                <a  href="https://github.com/ddgenome">
+                                <a  href="https://github.com/dr-seth">
                                     <i class="fa fa-github fa-1x"></i>
                                 </a>
                                 
@@ -240,13 +217,9 @@ Thursday 8 October 2015 at 2:45 p.m. PT in Palazzo N.</p>
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/09/24/better-spray-metrics-with-kamon/" data-toggle="tooltip" data-placement="top" title="Better Spray metrics with Kamon">&larr; Previous Post</a>
+                        <a href="/2015/10/14/aws-reinvent/" data-toggle="tooltip" data-placement="top" title="AWS re:Invent 2015">&larr; Previous Post</a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2015/10/07/demystifying-iam-roles/" data-toggle="tooltip" data-placement="top" title="Demystifying IAM Roles">Next Post &rarr;</a>
-                    </li>
                     
                 </ul>
 
