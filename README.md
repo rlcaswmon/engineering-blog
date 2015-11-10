@@ -8,38 +8,43 @@ this space for future articles.
 
 ## New Posts
 
-To contribute a new post, Monsanto engineers should check out the
-`engineering-blog` repo, create a branch, create your new post in the
-`_posts` directory, check it in, create a new
-[pull request](https://github.com/MonsantoCo/engineering-blog/pulls),
-calling out your new branch. After submitted it will go through the
+To contribute a new post, Monsanto engineers should fork the
+`engineering-blog` repo, clone the fork, create a branch from develop,
+create your new post in the `_posts` directory, check it in, push it,
+create a [pull request][PR] from your new branch into develop on the
+main version. After the PR is submitted it will go through the
 approval process. Thanks
+
+[PR]: https://github.com/MonsantoCo/engineering-blog/pulls (Monsanto Engineering Blog Pull Requests)
 
 ## Usage and development
 
-*   Our engineering blog is built by [Jekyll](http://jekyllrb.com/), so
-    to work on it first install Jekyll. *If* you already have
-    [Ruby](https://www.ruby-lang.org/) and
-    [RubyGems](https://rubygems.org/) installed, this could be as easy
-    as
+*   Our engineering blog is built by [Jekyll][], so to work on it first
+    install Jekyll. *If* you already have [Ruby][] and [RubyGems][]
+    installed, this could be as easy as
 
-        gem install jekyll
+        gem install jekyll --version '2.5.3'
 
-    If you need to install those first, check out the install
-    documentation for [Ruby](http://jekyllrb.com/docs/installation/)
-    and [RubyGems](https://rubygems.org/pages/download)
+    If you need to install those first, check out the
+    [install documentation for Jekyll][jekyll-install].  You may also
+    want to look at [rbenv][].
 
-*   Next, checkout the site code
+*   Fork the https://github.com/MonsantoCo/engineering-blog project
+    using the Fork button in the top-right corner of its web page.
 
-        git clone https://github.com/MonsantoCo/engineering-blog
+*   Next, checkout your fork of the site code
 
-*   Change into the downloaded repo
+        git clone git@github.com:YOUR_USER/engineering-blog.git
+
+    replacing `YOUR_USER` with your GitHub user name.
+
+*   Change into the downloaded repository
 
         cd engineering-blog
 
-*   Create a new post
+*   **Create a new post**
 
-    Copy one of the exsting posts, and make some changes
+    Copy one of the exsting posts, and make some changes.
 
         cp _posts/2015-01-22-stoop-our-first-open-source-release.md _posts/2015-04-01-this-is-a-new-post.md
         vi _posts/2015-04-01-this-is-a-new-post.md
@@ -49,7 +54,7 @@ approval process. Thanks
     self-explanitory. After that build the site with Jekyll (see
     below) to see how it looks.
 
-*   Create a new page
+*   **Create a new page**
 
     If you're starting with html copy one of the exsting pages, for
     example `about.html` and make some changes
@@ -73,6 +78,16 @@ approval process. Thanks
         git add .
         git commit -m "This is what I did to the code"
         git push
+
+*   Finally, go to the web page for your repo and create a pull request
+    into the develop branch of the MonsantoCo/engineering-blog.  Once
+    submitted your PR will be reviewed and posted publicly.
+
+[Jekyll]: http://jekyllrb.com/
+[Ruby]: https://www.ruby-lang.org/ (Ruby Programming Language)
+[RubyGems]: https://rubygems.org/ (Ruby Gems)
+[jekyll-install]: http://jekyllrb.com/docs/installation/ (Jekyll Installation)
+[rbenv]: https://github.com/sstephenson/rbenv (Ruby Environment)
 
 ## Push to production
 
