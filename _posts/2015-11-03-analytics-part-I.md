@@ -84,7 +84,12 @@ may include diverse techniques ranging from simple data mining to
 applying various statistical algorithms to testing some hypothesis. 
 In the end applying sophisticated statistical techniques and/or machine 
 learning algorithms to create insights is the primary motivation behind 
-the work of this user community.
+the work of this user community. A few posts from one of my colleague are
+an interesting read on this topic.<br/>
+  [What makes a data scientist – Part 1][Scientist1]<br/>
+  [What makes a data scientist – Part 2][Scientist2]
+[Scientist1]: http://engineering.monsanto.com/2015/11/09/what-makes-a-data-scientist-part-1/
+[Scientist2]: http://engineering.monsanto.com/2015/11/11/what-makes-a-data-scientist-part-2/
 
 ***Machines*** operate on data and need data to operate. Despite this fact, in 
 the data world, the needs of this voiceless group is often overlooked. 
