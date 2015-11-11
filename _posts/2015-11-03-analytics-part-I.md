@@ -12,19 +12,19 @@ authors:
         avatarUrl : "https://avatars1.githubusercontent.com/u/12257134?v=3"
 tags: [analytics, architecture, platform, information, business intelligence]
 ---
-Years ago, when I made a switch from procedural to object oriented 
+Years ago, when I made the switch from procedural to object oriented 
 programming, concepts such as function overloading fascinated me. 
-The simplicity a single function changing and behaving based on the 
-types of values passed to it spoke volumes to its simplicity and 
-elegance. Being a bit nostalgic I am going to say “those were the 
-good old days!”.  Today, the word ***Analytics*** is certainly an overloaded 
-term in the data world!  It is used to define work done by data 
-scientists to business analysts and from execution of sophisticated 
-statistical algorithms to the use of simple visualization tools. Oh, 
-and let’s not forget its synonymous use with the term “Big Data”. I 
-wish I could muster up the same sense of euphoria for the overloaded 
-term ***Analytics*** that I once felt for the use of overloaded method in 
-a function definition. 
+A single function changing and behaving based on the types of values 
+passed to it spoke volumes to its simplicity and elegance. Feeling 
+a bit nostalgic I am going to say “those were the good old days!". 
+Today, the word ***Analytics*** is certainly an overloaded term
+in the data world!  It is used to define work done by data scientists 
+to business analysts and from execution of sophisticated statistical 
+algorithms to the use of simple visualization tools. Oh, and let's 
+not forget its synonymous use with the term “Big Data”. I wish I
+could muster up the same sense of euphoria for the overloaded term 
+***Analytics*** that I once felt for the use of overloaded function
+in a class definition. 
 
 In this multi-part series of posts I will share practical knowledge 
 about using data to gain insights that I have acquired during my 
@@ -66,24 +66,25 @@ algorithm.
 ***Information Pro-Consumers*** are commonly known by more familiar terms 
 such as business analysts and power users. This group is concerned with
 performing analysis on data and generally their focus is to understand 
-the past in order to predict the future. This group often demands low 
-latency and high accessibility to data. More over, this group likes to 
-have multiple tools at their disposal to be able to perform aggregations, 
-calculations, slicing and dicing as well as adhoc analysis on data. 
+the past in order to predict the future. In addition to accuracy and 
+timeliness this group often demands low latency and high accessibility
+to data. More over, this group prefers to have multiple tools at their 
+disposal to be able to perform aggregations, calculations, slicing and 
+dicing as well as adhoc analysis on data. 
 
 ***Data Scientists*** do not need any introduction. Lately, much has been 
 said and written about this set of users. A quick search on the web will 
-prove that. But this series is not about who they are. Instead it is 
-about what they would like to do with data. Regardless of whether he 
-members of this group are statisticians with computer science degrees 
-or computational experts in some specific field, their needs revolve 
-around having access to any and every piece of data - big or small, 
-structured or unstructured. Often the discovery process and experimentation 
-undertaken by this group may include diverse techniques ranging from simple 
-data mining to applying various statistical algorithms to testing some 
-hypothesis. In the end applying sophisticated statistical techniques 
-and/or machine learning algorithms to create insights is the primary 
-motivation behind the work of this user community.
+prove that. But this series is not about defining who they are. Instead 
+it is about what they would like to do with data. Regardless of whether 
+these users are statisticians with computer science degrees or computational 
+experts in some specific field, their needs revolve around having access 
+to any and every piece of data - big or small, structured or unstructured. 
+Often the discovery process and experimentation undertaken by this group 
+may include diverse techniques ranging from simple data mining to
+applying various statistical algorithms to testing some hypothesis. 
+In the end applying sophisticated statistical techniques and/or machine 
+learning algorithms to create insights is the primary motivation behind 
+the work of this user community.
 
 ***Machines*** operate on data and need data to operate. Despite this fact, in 
 the data world, the needs of this voiceless group is often overlooked. 
@@ -95,14 +96,14 @@ the fact remains that most companies are still trying to shore up their
 ability to service this important category of consumers. 
 
 In conclusion, the message is simple. It is critical to understand the need 
-of those you serve. That basic yet crucial piece of information should be a 
+of those you serve. Such basic yet crucial piece of information should be a 
 precursor to everything else that follows. Whether it is creating a reference 
 architecture and/or standing up a scalable analytical platform one thing is 
 immediately apparent from figure 1.; the platform will need to cover use cases 
 ranging from machine learning to ad-hoc analysis, data analysis to sophisticated 
 analytics and from simple information consumption thru APIs to machine to 
 machine communication. A key mandate for a successful analytical platform is
- to make sure that the need of each consumer type is addressed holistically 
+to make sure that the need of each consumer type is addressed holistically 
 in helping them turn data into useful information and insights. 
 
 
