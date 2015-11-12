@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    
+        
+    
+    <meta property="og:site_name" content="Monsanto Engineering Blog" />
+    <meta property="og:title" content="Building a simple Spray application - Part 2" />
+    <meta property="og:description" content="Moving beyond a simple Spray application by improving routes and responses." />
+    <meta property="og:url" content="http://engineering.monsanto.com/2015/11/12/simple-spray-part-2/" />
+    <meta property="og:image" content="http://engineering.monsanto.com/img/mon-field_rows.jpg" />
+    <meta name="description" content="Moving beyond a simple Spray application by improving routes and responses." />
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <title>Building a simple Spray application - Part 2 - Engineering at Monsanto</title>
+
+    <link rel="canonical" href="http://engineering.monsanto.com/2015/11/12/simple-spray-part-2/" />
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.min.css" />
+    <link rel="stylesheet" href="/css/scala-colors.min.css" />
+
+    
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css" />
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://engineering.monsanto.com/feed.xml">
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Engineering at Monsanto</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/code/">Code</a>
+                </li>
+                
+                <li>
+                    <a href="/contact/">Contact</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/mon-field_rows.jpg')">
+    <div class="heading-underlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Building a simple Spray application - Part 2</h1>
+                        
+                        <h2 class="subheading">Improving routes and responses</h2>
+                        
+                        <span class="meta">Posted  by Scott MacDonald on November 12, 2015</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-body">
+
+				<p><a href="http://engineering.monsanto.com/2015/08/11/simple-spray/">Last time we spoke</a>
+we went through the simple building blocks to creating a Spray
+application.  As you go forward though, you will want to have more
+options in composing your routes, and making sure the routes are
+constructed correctly.</p>
+
+<p>You can feel free to download the
+<a href="https://github.com/MonsantoCo/simple-spray-with-routing">code</a> and
+follow along.  I&#39;ve separated the different sections into their own
+packages, so when running the code change the <code>import
+demo.PACKAGE.ServiceActor</code> in Main.scala to the appropriate package.</p>
+
+<h2>Organizing your routes</h2>
+
+<p>Last time we ended up with a single Trait that contained all our
+routes, and a single Actor that extended it.  Summarized, it looked
+something like this:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">akka.actor.Actor</span>
+<span class="k">import</span> <span class="nn">spray.routing.HttpService</span>
+<span class="k">import</span> <span class="nn">scala.concurrent._</span>
+
+<span class="k">class</span> <span class="nc">SampleServiceActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="k">with</span> <span class="nc">SampleRoute</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="n">actorRefFactory</span> <span class="k">=</span> <span class="n">context</span>
+    <span class="k">def</span> <span class="n">receive</span> <span class="k">=</span> <span class="n">runRoute</span><span class="o">(</span><span class="n">routes</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">trait</span> <span class="nc">SampleRoute</span> <span class="k">extends</span> <span class="nc">HttpService</span> <span class="o">{</span>
+    <span class="k">import</span> <span class="nn">spray.httpx.SprayJsonSupport._</span>
+    <span class="k">import</span> <span class="nn">Stuff._</span>
+    <span class="k">import</span> <span class="nn">spray.http.MediaTypes</span>
+    <span class="k">implicit</span> <span class="k">def</span> <span class="n">executionContext</span><span class="k">:</span> <span class="kt">ExecutionContextExecutor</span> <span class="o">=</span> <span class="n">actorRefFactory</span><span class="o">.</span><span class="n">dispatcher</span>
+    <span class="k">val</span> <span class="n">routes</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="n">path</span><span class="o">(</span><span class="s">&quot;stuff&quot;</span><span class="o">)</span> <span class="o">{</span> 
+            <span class="n">respondWithMediaType</span><span class="o">(</span><span class="nc">MediaTypes</span><span class="o">.</span><span class="n">`application/json`</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">get</span> <span class="o">{</span>
+                    <span class="n">complete</span><span class="o">(</span><span class="nc">Stuff</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;my stuff&quot;</span><span class="o">))</span>
+                <span class="o">}</span> <span class="o">~</span> 
+                <span class="n">post</span> <span class="o">{</span>
+                    <span class="n">entity</span><span class="o">(</span><span class="n">as</span><span class="o">[</span><span class="kt">Stuff</span><span class="o">])</span> <span class="o">{</span> <span class="n">stuff</span> <span class="k">=&gt;</span>
+                        <span class="n">complete</span><span class="o">(</span><span class="nc">Stuff</span><span class="o">(</span><span class="n">stuff</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="mi">100</span><span class="o">,</span> <span class="n">stuff</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="s">&quot; posted&quot;</span><span class="o">))</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="o">~</span> 
+        <span class="n">pathPrefix</span><span class="o">(</span><span class="s">&quot;junk&quot;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">pathPrefix</span><span class="o">(</span><span class="s">&quot;mine&quot;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">pathEnd</span> <span class="o">{</span>
+                    <span class="n">get</span> <span class="o">{</span>
+                        <span class="n">complete</span><span class="o">(</span><span class="s">&quot;MINE!&quot;</span><span class="o">)</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="o">~</span> <span class="n">pathPrefix</span><span class="o">(</span><span class="s">&quot;yours&quot;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">pathEnd</span> <span class="o">{</span>
+                    <span class="n">get</span> <span class="o">{</span>
+                        <span class="n">complete</span><span class="o">(</span><span class="s">&quot;YOURS!&quot;</span><span class="o">)</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>For a simple situation, doing everything in one trait is fine.
+However you&#39;re probably going to end up doing something much larger,
+and stuffing everything together will get very confusing with all the
+nesting that goes on.  Also there&#39;s not really a good relationship
+between <em>junk</em> and <em>stuff</em>, so separating that is probably a good
+idea.</p>
+
+<h3>Separating your routes</h3>
+
+<p>Separating the routes into their own traits is as straighforward as it
+sounds</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">demo.Stuff._</span>
+<span class="k">import</span> <span class="nn">spray.http.MediaTypes</span>
+<span class="k">import</span> <span class="nn">spray.httpx.SprayJsonSupport._</span>
+<span class="k">import</span> <span class="nn">spray.routing.HttpService</span>
+
+<span class="k">trait</span> <span class="nc">StuffRoute</span> <span class="k">extends</span> <span class="nc">HttpService</span> <span class="o">{</span>
+    <span class="k">implicit</span> <span class="k">def</span> <span class="n">executionContext</span> <span class="k">=</span> <span class="n">actorRefFactory</span><span class="o">.</span><span class="n">dispatcher</span>
+
+    <span class="k">val</span> <span class="n">routes</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="n">path</span><span class="o">(</span><span class="s">&quot;stuff&quot;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">respondWithMediaType</span><span class="o">(</span><span class="nc">MediaTypes</span><span class="o">.</span><span class="n">`application/json`</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">get</span> <span class="o">{</span>
+                    <span class="n">complete</span><span class="o">(</span><span class="nc">Stuff</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;my stuff&quot;</span><span class="o">))</span>
+                <span class="o">}</span> <span class="o">~</span>
+                  <span class="n">post</span> <span class="o">{</span>
+                      <span class="n">entity</span><span class="o">(</span><span class="n">as</span><span class="o">[</span><span class="kt">Stuff</span><span class="o">])</span> <span class="o">{</span> <span class="n">stuff</span> <span class="k">=&gt;</span>
+                          <span class="n">complete</span><span class="o">(</span><span class="nc">Stuff</span><span class="o">(</span><span class="n">stuff</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="mi">100</span><span class="o">,</span> <span class="n">stuff</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="s">&quot; posted&quot;</span><span class="o">))</span>
+                      <span class="o">}</span>
+                  <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">trait</span> <span class="nc">JunkRoute</span> <span class="k">extends</span> <span class="nc">HttpService</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">routes</span> <span class="k">=</span> <span class="n">pathPrefix</span><span class="o">(</span><span class="s">&quot;junk&quot;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">pathPrefix</span><span class="o">(</span><span class="s">&quot;mine&quot;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">pathEnd</span> <span class="o">{</span>
+                <span class="n">get</span> <span class="o">{</span>
+                    <span class="n">complete</span><span class="o">(</span><span class="s">&quot;MINE!&quot;</span><span class="o">)</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="o">~</span> <span class="n">pathPrefix</span><span class="o">(</span><span class="s">&quot;yours&quot;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">pathEnd</span> <span class="o">{</span>
+                <span class="n">get</span> <span class="o">{</span>
+                    <span class="n">complete</span><span class="o">(</span><span class="s">&quot;YOURS!&quot;</span><span class="o">)</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Note that in each trait I&#39;ve defined a <em>routes</em> property.  This is
+simply a convention, you can call it whatever you wish.  However using
+this convention has a small price.  Recall our service actor:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">SampleServiceActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="k">with</span> <span class="nc">SampleRoute</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="n">actorRefFactory</span> <span class="k">=</span> <span class="n">context</span>
+    <span class="k">def</span> <span class="n">receive</span> <span class="k">=</span> <span class="n">runRoute</span><span class="o">(</span><span class="n">route</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>We extend the route trait and pass in the routes property to the
+<em>runRoute</em> method to setup the required <em>receive</em> action.  If we
+always call the property <em>routes</em> on all our traits, we&#39;re going to
+hit some conflicts when we extend all of these traits.  The solution
+is to no longer extend them, but to instantiate them inside our actor
+instead.  This also means we need to extend from <em>HttpServiceActor</em>
+instead of <em>Actor</em> since we are no longer extending a trait that
+contains the framework we need.  The final code looks like this:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">spray.routing.HttpServiceActor</span>
+
+<span class="k">class</span> <span class="nc">ServiceActor</span> <span class="k">extends</span> <span class="nc">HttpServiceActor</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="n">actorRefFactory</span> <span class="k">=</span> <span class="n">context</span>
+
+    <span class="k">val</span> <span class="n">stuff</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StuffRoute</span> <span class="o">{</span>
+        <span class="k">override</span> <span class="k">implicit</span> <span class="k">def</span> <span class="n">actorRefFactory</span> <span class="k">=</span> <span class="n">context</span>
+    <span class="o">}</span>
+
+    <span class="k">val</span> <span class="n">junk</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">JunkRoute</span> <span class="o">{</span>
+        <span class="k">override</span> <span class="k">implicit</span> <span class="k">def</span> <span class="n">actorRefFactory</span> <span class="k">=</span> <span class="n">context</span>
+    <span class="o">}</span>
+    <span class="k">def</span> <span class="n">receive</span> <span class="k">=</span> <span class="n">runRoute</span><span class="o">(</span><span class="n">stuff</span><span class="o">.</span><span class="n">routes</span> <span class="o">~</span> <span class="n">junk</span><span class="o">.</span><span class="n">routes</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>As you can see, we utilize the ~ operator to combine the routes. </p>
+
+<h3>Ordering matters</h3>
+
+<p>While it&#39;s a good idea to separate your different contexts this way,
+you can possibly run into an issue where you have path conflicts.  To
+show this, append the code below to the end of each trait&#39;s <em>routes</em>
+property:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">~</span> <span class="n">get</span> <span class="o">{</span> <span class="n">complete</span><span class="o">(</span><span class="s">&quot;root from stuff|junk&quot;</span><span class="o">)</span> <span class="o">}</span>
+</code></pre></div>
+<p>Run the app and access your root, you should only see the message from
+the <em>stuff</em> service.  Change the ordering of the routes in the
+<em>runRoute</em> method and try again, you should see the <em>junk</em> service&#39;s
+response.  It get&#39;s worse, now try to access the <em>/stuff</em> context,
+you&#39;ll notice the same root message again.</p>
+
+<p>Remember that Spray looks for the first match, so the order you link
+the routes matters.  If you have a general fallback in a trait early
+in the chain, it will never resolve to the other paths that are
+probably more appropriate.</p>
+
+<p>If you need a general fallback strategy, make sure its in a different
+trait <em>at the end of the chain</em>.  The most common mistake here is
+tacking on a custom 404 for a context if nothing matches.  If put at
+too high a level, it will actually block all other contexts.</p>
+
+<p>Now that we know how to split up our services into more managable
+chunks, let&#39;s revisit how paths are built.</p>
+
+<h2>Constructing paths more cleanly</h2>
+
+<p>Our <em>junk</em> context currently can support the paths <em>junk/mine</em> and
+<em>junk/yours</em>.  It does so by nesting pathPrefix &amp; pathEnd statements
+like so:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">routes</span> <span class="k">=</span> <span class="n">pathPrefix</span><span class="o">(</span><span class="s">&quot;junk&quot;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">pathPrefix</span><span class="o">(</span><span class="s">&quot;mine&quot;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">pathEnd</span> <span class="o">{</span>
+                <span class="n">get</span> <span class="o">{</span>
+                    <span class="n">complete</span><span class="o">(</span><span class="s">&quot;MINE!&quot;</span><span class="o">)</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="o">...</span>
+</code></pre></div>
+<p>There is a way to condense this somewhat. While <em>path(&quot;junk/mine&quot;)</em>
+doesn&#39;t work, you can separate the strings with the <em>/</em> character into
+something that does work.</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">routes</span> <span class="k">=</span> <span class="n">path</span><span class="o">(</span><span class="s">&quot;junk&quot;</span> <span class="o">/</span> <span class="s">&quot;mine&quot;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">get</span> <span class="o">{</span>
+            <span class="n">complete</span><span class="o">(</span><span class="s">&quot;MINE!&quot;</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="o">~</span> <span class="n">path</span><span class="o">(</span><span class="s">&quot;junk&quot;</span> <span class="o">/</span> <span class="s">&quot;yours&quot;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">get</span> <span class="o">{</span>
+            <span class="n">complete</span><span class="o">(</span><span class="s">&quot;YOURS!&quot;</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div>
+<p>But the main benefit here is that it allows an easy way to grab path
+parameters.  To illustrate this, let&#39;s go back to our <em>stuff</em> route.</p>
+
+<p>Currently the <em>GET</em> operation just returns a single item, let&#39;s change
+that to return something by id, pretending we&#39;re talking to a data
+store.  Instead of putting another string after the <em>/</em> we&#39;ll instead
+just put in a Spray type matcher.</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">stuffMap</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="nc">Stuff</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;my stuff&quot;</span><span class="o">),</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="nc">Stuff</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">&quot;your stuff&quot;</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">routes</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="n">respondWithMediaType</span><span class="o">(</span><span class="nc">MediaTypes</span><span class="o">.</span><span class="n">`application/json`</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">path</span><span class="o">(</span><span class="s">&quot;stuff&quot;</span> <span class="o">/</span> <span class="nc">IntNumber</span><span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">id</span><span class="o">)</span> <span class="k">=&gt;</span>
+            <span class="n">get</span> <span class="o">{</span>
+                <span class="n">complete</span><span class="o">(</span><span class="n">stuffMap</span><span class="o">(</span><span class="n">id</span><span class="o">))</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="o">~</span>
+        <span class="n">path</span><span class="o">(</span><span class="s">&quot;stuff&quot;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">post</span> <span class="o">{</span>
+                <span class="n">entity</span><span class="o">(</span><span class="n">as</span><span class="o">[</span><span class="kt">Stuff</span><span class="o">])</span> <span class="o">{</span> <span class="n">stuff</span> <span class="k">=&gt;</span>
+                    <span class="n">complete</span><span class="o">(</span><span class="nc">Stuff</span><span class="o">(</span><span class="n">stuff</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="mi">100</span><span class="o">,</span> <span class="n">stuff</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="s">&quot; posted&quot;</span><span class="o">))</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Notice the (id) =&gt; expression, the matchers will map to that
+declaration in the order they are defined.  So you could do something
+like the following:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">path</span><span class="o">(</span><span class="s">&quot;stuff&quot;</span> <span class="o">/</span> <span class="nc">IntNumber</span> <span class="o">/</span> <span class="s">&quot;substuff&quot;</span> <span class="o">/</span> <span class="nc">IntNumber</span> <span class="o">/</span> <span class="s">&quot;subsubstuff&quot;</span> <span class="o">/</span> <span class="nc">IntNumber</span><span class="o">)</span> <span class="o">{</span> 
+    <span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">subId</span><span class="o">,</span> <span class="n">subsubId</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">....</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Go ahead and modify your code with these changes and give it a try.
+You should get different answers for a call to <em>stuff/1</em> vs <em>stuff/2</em>.</p>
+
+<p>You might also want to try <em>stuff/3</em>, you&#39;ll see we get an internal
+server error, but that&#39;s not what we really want.  Which brings us
+to....</p>
+
+<h2>Rejecting requests</h2>
+
+<p>In the case above, a <strong>404 - Not Found</strong> seems to be the response we
+really want.  Luckilly the <em>complete</em> method is overloaded to allow us
+to do this easily by passing a status (<strong>import
+spray.http.StatusCodes._</strong>) as the first parameter.  Let&#39;s see how
+this looks in our <em>stuff</em> service.</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">spray.http.StatusCodes._</span>
+<span class="o">...</span>
+<span class="n">path</span><span class="o">(</span><span class="s">&quot;stuff&quot;</span> <span class="o">/</span> <span class="nc">IntNumber</span><span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">id</span><span class="o">)</span> <span class="k">=&gt;</span>
+    <span class="n">get</span> <span class="o">{</span>
+        <span class="n">stuffMap</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="n">id</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">stuff</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">complete</span><span class="o">(</span><span class="n">stuff</span><span class="o">)</span>
+            <span class="k">case</span> <span class="nc">None</span> <span class="k">=&gt;</span> <span class="n">complete</span><span class="o">(</span><span class="nc">NotFound</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="s">&quot;No stuff with id $id was found!&quot;</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span> <span class="o">~</span>
+<span class="o">...</span>
+</code></pre></div>
+<p>Go ahead and try that out, when you call the url <em>stuff/3</em> you should
+get the correct <strong>404 - Not Found</strong> error with our message included.</p>
+
+<h3>Validating Requests In The Path</h3>
+
+<p>In certain cases you might want a quick way to send a <strong>400 - Bad
+Request</strong> defined in your path structure.  For instance, we send a
+<strong>404 - Not Found</strong> if the id isn&#39;t available, but what if we wanted
+to tell the user that an <em>id</em> less than 1 wasn&#39;t only not found, but
+was an incorrect usage?  The <em>validate</em> directive gives us a quick way
+to do this.  Our code now looks like this:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">...</span>
+<span class="n">path</span><span class="o">(</span><span class="s">&quot;stuff&quot;</span> <span class="o">/</span> <span class="nc">IntNumber</span><span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">id</span><span class="o">)</span> <span class="k">=&gt;</span>
+    <span class="n">validate</span><span class="o">(</span><span class="n">id</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">,</span> <span class="s">&quot;Id must be greater than 0!&quot;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">get</span> <span class="o">{</span>
+            <span class="n">stuffMap</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="n">id</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+                <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">stuff</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">complete</span><span class="o">(</span><span class="n">stuff</span><span class="o">)</span>
+                <span class="k">case</span> <span class="nc">None</span> <span class="k">=&gt;</span> <span class="n">complete</span><span class="o">(</span><span class="nc">NotFound</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="s">&quot;No stuff with id $id was found!&quot;</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">...</span>
+</code></pre></div>
+<h3>Using Exception Handlers</h3>
+
+<p>There&#39;s another way to handle common cases.  Let&#39;s say we want an
+<em>IllegalArgumentException</em> to automatically be translated into a
+<strong>400 - Bad Request</strong>.  In fact let&#39;s modify our <em>POST</em> call to
+<em>stuff</em> to make that happen if it receives and id less than 1</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">...</span>
+<span class="n">path</span><span class="o">(</span><span class="s">&quot;stuff&quot;</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">post</span> <span class="o">{</span>
+        <span class="n">entity</span><span class="o">(</span><span class="n">as</span><span class="o">[</span><span class="kt">Stuff</span><span class="o">])</span> <span class="o">{</span> <span class="n">stuff</span> <span class="k">=&gt;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">stuff</span><span class="o">.</span><span class="n">id</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="s">&quot;Id cannot be less than 1!&quot;</span><span class="o">)</span>
+            <span class="n">complete</span><span class="o">(</span><span class="nc">Stuff</span><span class="o">(</span><span class="n">stuff</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="mi">100</span><span class="o">,</span> <span class="n">stuff</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="s">&quot; posted&quot;</span><span class="o">))</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">....</span>
+</code></pre></div>
+<p>If you run this code as it is, you&#39;ll end up with an <strong>500 - Internal
+Server Error</strong>.  However, you can attach an <em>ExceptionHandler</em> to your
+<em>ServiceActor</em> class to automatically take care of this for you.</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">spray.http.StatusCodes._</span>
+<span class="k">import</span> <span class="nn">spray.routing.</span><span class="o">{</span><span class="nc">ExceptionHandler</span><span class="o">,</span> <span class="nc">HttpServiceActor</span><span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">ServiceActor</span> <span class="k">extends</span> <span class="nc">HttpServiceActor</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="n">actorRefFactory</span> <span class="k">=</span> <span class="n">context</span>
+
+    <span class="k">implicit</span> <span class="k">def</span> <span class="n">exceptionHandler</span> <span class="k">=</span> <span class="nc">ExceptionHandler</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="n">ex</span><span class="k">:</span> <span class="kt">IllegalArgumentException</span> <span class="o">=&gt;</span> <span class="n">complete</span><span class="o">(</span><span class="nc">BadRequest</span> <span class="o">-&gt;</span> <span class="n">ex</span><span class="o">.</span><span class="n">getMessage</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">val</span> <span class="n">stuff</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StuffRoute</span> <span class="o">{</span>
+        <span class="k">override</span> <span class="k">implicit</span> <span class="k">def</span> <span class="n">actorRefFactory</span> <span class="k">=</span> <span class="n">context</span>
+    <span class="o">}</span>
+
+    <span class="k">val</span> <span class="n">junk</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">JunkRoute</span> <span class="o">{</span>
+        <span class="k">override</span> <span class="k">implicit</span> <span class="k">def</span> <span class="n">actorRefFactory</span> <span class="k">=</span> <span class="n">context</span>
+    <span class="o">}</span>
+
+    <span class="k">def</span> <span class="n">receive</span> <span class="k">=</span> <span class="n">runRoute</span><span class="o">(</span><span class="n">junk</span><span class="o">.</span><span class="n">routes</span> <span class="o">~</span> <span class="n">stuff</span><span class="o">.</span><span class="n">routes</span><span class="o">)</span>
+
+<span class="o">}</span>
+</code></pre></div>
+<p>Try running the service now and do a <em>POST</em> with an id less than 1,
+you should see the correct HTTP response and message.</p>
+
+<h2>In the end....</h2>
+
+<p>Spray gives you a lot of flexibility to setup your routes and
+responses in a way that works best for your application.  I recommend
+starting with the basic nesting and refactoring to other formats as
+you get more complex.  Decide early on your strategy of returning
+errors, so you&#39;re not just shimming it in later.  Correct error
+responses will save you tons of support hours.</p>
+
+<p>In the next installment I&#39;ll go over Unit Testing and including
+Swagger documentation (and how that might affect your route
+construction).</p>
+
+
+                
+
+                        <div class="post-signature multiple">
+                            posted on November 12, 2015 by <br>
+                        
+
+
+                            <div class="author">
+                                
+                                <img src="https://avatars1.githubusercontent.com/u/1211796?v=3&s=460&s=40">
+                                
+                                    <span>
+                                        Scott MacDonald
+                                    </span>
+
+                                
+                                
+                                <a  href="https://github.com/samus42">
+                                    <i class="fa fa-github fa-1x"></i>
+                                </a>
+                                
+                            </div>
+                        
+                        </div>
+                
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/11/11/what-makes-a-data-scientist-part-2/" data-toggle="tooltip" data-placement="top" title="What Makes a Data Scientist - Part 2">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <li>
+                        <a href="https://twitter.com/MonPlatformEng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.youtube.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-youtube-square fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.facebook.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://github.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 2015 Engineering at Monsanto &nbsp;|&nbsp; Built with <a href="http://jekyllrb.com/">Jekyll</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a><br />
+                    <a href="/sitemap.xml">Sitemap</a> &nbsp;|&nbsp;
+                    <a href="http://www.monsanto.com/legal-notice/Pages/default.aspx">Legal Notice</a> &nbsp;|&nbsp;
+                    <a href="http://www.monsanto.com/privacy-policy/Pages/default.aspx">Privacy Policy</a> &nbsp;|&nbsp;
+                    <a href="/contact">Contact Us</a>
+
+                    </p>
+                <div align="center"><br /><img src="/img/Monsanto_logo.jpg" width="170" height="54" border="0" /></div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- Google Analytics JavaScript -->
+
+<script>
+if (/monsanto\.com/.test(window.location.hostname)) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43186905-16', 'auto');
+    ga('require', 'displayfeatures');
+    ga('send', 'pageview');
+
+    var trackOutboundLink = function(url) {
+        ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+                function () {
+                    document.location = url;
+                }
+        });
+    }
+}
+</script>
+<script src="/js/main.js"></script>
+
+
+</body>
+
+</html>

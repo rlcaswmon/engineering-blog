@@ -7,6 +7,22 @@
         <atom:link href="http://engineering.monsanto.com/feed.xml" rel="self" type="application/rss+xml" />
         
             <item>
+                <title>Building a simple Spray application - Part 2</title>
+                
+                
+                    <description>&lt;p&gt;&lt;a href=&quot;http://engineering.monsanto.com/2015/08/11/simple-spray/&quot;&gt;Last time we spoke&lt;/a&gt;
+we went through the simple building blocks to creating a Spray
+application.  As you go forward though, you will want to have more
+options in composing your routes, and making sure the routes are
+constructed correctly.&lt;/p&gt;
+</description>
+                
+                <pubDate>Thu, 12 Nov 2015 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2015/11/12/simple-spray-part-2/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/11/12/simple-spray-part-2/</guid>
+            </item>
+        
+            <item>
                 <title>What Makes a Data Scientist - Part 2</title>
                 
                 
@@ -143,24 +159,6 @@ much of it is concerned with two major questions:&lt;/p&gt;
                 <pubDate>Thu, 20 Aug 2015 00:00:00 -0500</pubDate>
                 <link>http://engineering.monsanto.com/2015/08/20/cf-metrics/</link>
                 <guid isPermaLink="true">http://engineering.monsanto.com/2015/08/20/cf-metrics/</guid>
-            </item>
-        
-            <item>
-                <title>Building a simple Spray application</title>
-                
-                
-                    <description>&lt;p&gt;You&amp;#39;ve probably heard people talk about Spray by now; maybe you&amp;#39;re
-even using it for JSON serialization.  Spray also provides a
-lightweight server package to allow you easily create REST services.
-The hardest part of getting started with any new technology is getting
-past that initial contact of setup and concepts.  I&amp;#39;ll try to reduce
-that hurdle by walking you through a simple app that hits most of the
-features you might regularly use.&lt;/p&gt;
-</description>
-                
-                <pubDate>Tue, 11 Aug 2015 00:00:00 -0500</pubDate>
-                <link>http://engineering.monsanto.com/2015/08/11/simple-spray/</link>
-                <guid isPermaLink="true">http://engineering.monsanto.com/2015/08/11/simple-spray/</guid>
             </item>
         
     </channel>
