@@ -34,7 +34,9 @@ architecture and challenges encountered along the way when instantiating
 a comprehensive analytical platform. The first step on this journey is 
 simply defining the consumers of information and understanding what they 
 need. In short, the first commandment is simply - know thy information 
-consumer. Figure 1 captures the essence of this concept. 
+consumer. Figure 1 captures the essence of this concept by defining four
+distinct types of consumers of data - information consumer, information 
+pro-consumer, data scientist and machine. 
 
 ![Information Consumer Types](/img/Information_Consumers.png)
 <center> Figure 1 - Information Consumer Types </center>
@@ -85,7 +87,7 @@ applying various statistical algorithms to testing some hypothesis.
 In the end applying sophisticated statistical techniques and/or machine 
 learning algorithms to create insights is the primary motivation behind 
 the work of this user community. A few posts from one of my colleague are
-an interesting read on this topic.<br/>
+an interesting read on this particular data consumer type.<br/>
   [What makes a data scientist – Part 1][Scientist1]<br/>
   [What makes a data scientist – Part 2][Scientist2]
 [Scientist1]: http://engineering.monsanto.com/2015/11/09/what-makes-a-data-scientist-part-1/
