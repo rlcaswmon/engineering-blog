@@ -2,7 +2,7 @@
 layout: post
 title: "Anatomy of Analytics"
 subtitle: "Part 1"
-description: "As use of Analytics is becoming more pervasive at Monsanto, this series of posts will discribe the supporting architecturet that is being used to instantiate a complete analytics platform."
+description: "As use of Analytics is becoming more pervasive at Monsanto, this series of posts will describe the supporting architecture that is being used to instantiate a complete analytics platform."
 header-img: "img/mon-maui.jpg"
 authors:
     -
