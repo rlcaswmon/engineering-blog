@@ -7,6 +7,30 @@
         <atom:link href="http://engineering.monsanto.com/feed.xml" rel="self" type="application/rss+xml" />
         
             <item>
+                <title>Anatomy of Analytics</title>
+                
+                
+                    <description>&lt;p&gt;Years ago, when I made the switch from procedural to object oriented
+programming, concepts such as function overloading fascinated me.  A
+single function changing and behaving based on the types of values
+passed to it spoke volumes to its simplicity and elegance. Feeling a
+bit nostalgic I am going to say, &amp;quot;Those were the good old days!&amp;quot;
+Today, the word &lt;strong&gt;&lt;em&gt;Analytics&lt;/em&gt;&lt;/strong&gt; is certainly an overloaded term in the
+data world!  It is used to define work done by data scientists to
+business analysts and from execution of sophisticated statistical
+algorithms to the use of simple visualization tools. Oh, and let&amp;#39;s not
+forget its synonymous use with the term &amp;quot;Big Data.&amp;quot; I wish I could
+muster up the same sense of euphoria for the overloaded term
+&lt;strong&gt;&lt;em&gt;Analytics&lt;/em&gt;&lt;/strong&gt; that I once felt for the use of overloaded functions
+in a class definition.&lt;/p&gt;
+</description>
+                
+                <pubDate>Fri, 13 Nov 2015 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2015/11/13/analytics-part-1/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/11/13/analytics-part-1/</guid>
+            </item>
+        
+            <item>
                 <title>Building a simple Spray application - Part 2</title>
                 
                 
@@ -147,18 +171,6 @@ much of it is concerned with two major questions:&lt;/p&gt;
                 <pubDate>Mon, 21 Sep 2015 00:00:00 -0500</pubDate>
                 <link>http://engineering.monsanto.com/2015/09/21/leaflet-light-cluster/</link>
                 <guid isPermaLink="true">http://engineering.monsanto.com/2015/09/21/leaflet-light-cluster/</guid>
-            </item>
-        
-            <item>
-                <title>Cloud Foundry Metrics</title>
-                
-                
-                    <description>&lt;p&gt;In the second installation of our open source &lt;a href=&quot;http://engineering.monsanto.com/2015/07/22/building-an-open-source-cloud-foundry-toolbox/&quot;&gt;Cloud Foundry (CF) toolbox series&lt;/a&gt; we would like to introduce &lt;a href=&quot;https://github.com/MonsantoCo/cf-metrics&quot;&gt;CF-Metrics&lt;/a&gt;, a comprehensive solution for Cloud Foundry monitoring and alerting based solely on open source projects.  In a world of unreliable cloud infrastructure and distributed micro service architectures, monitoring and alerting are as critical now as they&amp;#39;ve ever been.  Even when you learn to expect failure (or better yet &lt;a href=&quot;https://github.com/strepsirrhini-army/chaos-lemur&quot;&gt;embrace it&lt;/a&gt;) and build self healing platforms like Cloud Foundry, you still need monitoring and alerting to analyze why there was a failure and how to make it not happen again in the future.&lt;/p&gt;
-</description>
-                
-                <pubDate>Thu, 20 Aug 2015 00:00:00 -0500</pubDate>
-                <link>http://engineering.monsanto.com/2015/08/20/cf-metrics/</link>
-                <guid isPermaLink="true">http://engineering.monsanto.com/2015/08/20/cf-metrics/</guid>
             </item>
         
     </channel>
