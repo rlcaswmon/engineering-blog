@@ -11,18 +11,18 @@
         
     
     <meta property="og:site_name" content="Monsanto Engineering Blog" />
-    <meta property="og:title" content="Anatomy of Analytics" />
-    <meta property="og:description" content="As use of Analytics is becoming more pervasive at Monsanto, this series of posts will describe the supporting architecture that is being used to instantiate a complete analytics platform." />
-    <meta property="og:url" content="http://engineering.monsanto.com/2015/11/13/analytics-part-1/" />
-    <meta property="og:image" content="http://engineering.monsanto.com/img/mon-maui.jpg" />
-    <meta name="description" content="As use of Analytics is becoming more pervasive at Monsanto, this series of posts will describe the supporting architecture that is being used to instantiate a complete analytics platform." />
+    <meta property="og:title" content="What Makes a Data Scientist - Part 3" />
+    <meta property="og:description" content="A real Data Scientist is part developer, mathematician, data monger, big data engineer, data visualization master, creative thinker, and domain expert, and very hard to find." />
+    <meta property="og:url" content="http://engineering.monsanto.com/2015/11/16/what-makes-a-data-scientist-part-3/" />
+    <meta property="og:image" content="http://engineering.monsanto.com/img/mon-chesterfield.jpg" />
+    <meta name="description" content="A real Data Scientist is part developer, mathematician, data monger, big data engineer, data visualization master, creative thinker, and domain expert, and very hard to find." />
     
 
     <link rel="shortcut icon" href="/favicon.ico" />
 
-    <title>Anatomy of Analytics - Engineering at Monsanto</title>
+    <title>What Makes a Data Scientist - Part 3 - Engineering at Monsanto</title>
 
-    <link rel="canonical" href="http://engineering.monsanto.com/2015/11/13/analytics-part-1/" />
+    <link rel="canonical" href="http://engineering.monsanto.com/2015/11/16/what-makes-a-data-scientist-part-3/" />
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
@@ -94,17 +94,17 @@
 
 
     <!-- Post Header -->
-<header class="intro-header" style="background-image: url('/img/mon-maui.jpg')">
+<header class="intro-header" style="background-image: url('/img/mon-chesterfield.jpg')">
     <div class="heading-underlay">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Anatomy of Analytics</h1>
+                        <h1>What Makes a Data Scientist - Part 3</h1>
                         
-                        <h2 class="subheading">Part 1</h2>
+                        <h2 class="subheading">Finding Unicorns in the Midwest</h2>
                         
-                        <span class="meta">Posted  by Naghman Waheed on November 13, 2015</span>
+                        <span class="meta">Posted  by Seth Dobrin on November 16, 2015</span>
                     </div>
                 </div>
             </div>
@@ -118,133 +118,118 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-body">
 
-				<p>Years ago, when I made the switch from procedural to object oriented
-programming, concepts such as function overloading fascinated me.  A
-single function changing and behaving based on the types of values
-passed to it spoke volumes to its simplicity and elegance. Feeling a
-bit nostalgic I am going to say, &quot;Those were the good old days!&quot;
-Today, the word <strong><em>Analytics</em></strong> is certainly an overloaded term in the
-data world!  It is used to define work done by data scientists to
-business analysts and from execution of sophisticated statistical
-algorithms to the use of simple visualization tools. Oh, and let&#39;s not
-forget its synonymous use with the term &quot;Big Data.&quot; I wish I could
-muster up the same sense of euphoria for the overloaded term
-<strong><em>Analytics</em></strong> that I once felt for the use of overloaded functions
-in a class definition.</p>
+				<p>Reposted from <a href="https://www.linkedin.com/pulse/what-makes-data-scientist-finding-unicorns-midwest-seth-dobrin-phd?trk=prof-post">LinkedIn</a>.</p>
 
-<p>In this multi-part series of posts I will share practical knowledge
-about using data to gain insights that I have acquired during my
-career as a data and information architect. In addition, I will
-highlight the discipline that is required to create the supporting
-architecture and challenges encountered along the way when
-instantiating a comprehensive analytical platform. The first step on
-this journey is simply defining the consumers of information and
-understanding what they need. In short, the first commandment is
-simply: know thy information consumer. Figure 1 captures the essence
-of this concept by defining four distinct types of consumers of data
-&mdash; information consumer, information pro-consumer, data
-scientist, and machine.</p>
+<p>The role of Data Scientist is often ill defined. A real Data Scientist
+is part developer, mathematician, data monger, big data engineer, data
+visualization master, creative thinker, and domain expert. The way I
+look at is she knows more math than a developer and is a better coder
+than your current analytics team. She can visualize data better than a
+big data engineer and can build a data system better than any data viz
+team. She has more domain expertise than a business analysts or
+product owner and is more adept at defining capabilities than your
+business partner. Finally, she can think about data in unique ways and
+create previously unrealized value from data. This is the unicorn. You
+may already have one or two under your nose or you may have have &quot;Data
+Scientists&quot; on your team that actually aren&#39;t.</p>
 
-<p><img src="/img/Information_Consumers.png" alt="Information Consumer Types">
-<center> Figure 1 - Information Consumer Types </center></p>
+<p>Combine this with the relative newness of formal data science training
+programs and it is no wonder that finding true a Data Scientist has
+been likened to finding unicorns. On the left or right coast this can
+be challenging enough, now apply this to the Midwest. Similar to any
+software decision, you have two main options: build or buy. Or in this
+case, look outside and recruit for talent or invest in your current
+talent pool. Both options come with their own set of challenges.</p>
 
-<p>One thing to note in Figure 1 is that the word <strong><em>Analytics</em></strong> is
-sparingly used. This was deliberate. All information presented has
-analytical value. More on that in the next post. For now, let&#39;s just
-say before the word <strong><em>Analytics</em></strong> took on a life of its own, many of
-the terms above sufficed to describe how different consumers analyzed
-data and information.  It was not long ago that the terms such as
-&quot;slicing and dicing&quot; and &quot;drill down analysis&quot; were commonly used to
-describe capabilities which allowed users to make important
-decisions. Today those capabilities are still an integral component of
-Business Intelligence and offered by many vendors as a standard
-offerings in their respective suite of products.</p>
+<p>With the option of buy/hire, the pool of true Data Scientists is
+small, but applying the requirement for domain knowledge can make the
+pool dry up entirely, especially in our focus of agriculture. On top
+of that is the challenge of location. Attracting these individuals to
+perceived less desirable locations like the Midwest (which, by the
+way, is a really nice place to live even having grown up on the right
+coast and having lived on the left coast for more than a decade)
+creates even steeper barriers. You can look at remote employees, but
+historically, large companies have not been good at this and are just
+learning how to do this effectively while still providing
+opportunities for development and career growth. With the right focus,
+role definition and willingness to invest in expanding their domain
+knowledge, this is not an insurmountable challenge</p>
 
-<p>A few observations on information consumers in each category:</p>
+<p>The other option of build, or developing the current talent pool, has
+a separate set of challenges. Is the current talent pool even capable
+of developing the needed skill set? With the current work load how do
+you help her find time at work to add the necessary skills to her
+arsenal?  On the up side, she likely is already located where you want
+her and she is more likely to have a base of necessary domain
+expertise. With a willingness to carve out time and pay for
+development, combined with identifying those in your current pool with
+the desire and potential to develop these skills, this is not an
+intractable course of action either.</p>
 
-<p><strong><em>Information Consumers</em></strong> are generally the business users and
-executives that want access to timely and accurate reports and
-dashboards through intuitive and user friendly interfaces. The
-information consumed by this group of consumers needs to be highly
-accurate, trusted, and reproducible.  Additional characteristics of
-information consumed by this set of users could be simple aggregated
-views of past sales or financial data for a specific region or a view
-of forecasted sales numbers generated through some sophisticated
-prediction algorithm.</p>
+<p>Not surprisingly, the most correct course is a mixture of both.</p>
 
-<p><strong><em>Information Pro-Consumers</em></strong> are commonly known by more familiar
-terms such as business analysts and power users. This group is
-concerned with performing analysis on data and generally their focus
-is to understand the past in order to predict the future. In addition
-to accuracy and timeliness this group often demands low latency and
-high accessibility to data. More over, this group prefers to have
-multiple tools at their disposal to be able to perform aggregations,
-calculations, slicing, and dicing as well as ad hoc analysis on data.</p>
+<p><strong>Bringing in external talent.</strong> Start by identifying those critical
+spots that you want to find a true Data Scientist and perhaps lack
+specific domain or technical expertise. Be prepared to spend the
+time. Create an intriguing role highlighting the challenges and the
+opportunities. Smart people want to tackle large, multidimensional
+challenges. Define the role with a menu of requirements: two from this
+category, four from that category and stick to it, don&#39;t
+compromise. Unlike other roles where you can likely set you recruiter
+loose, you need to take an active role in identifying the candidates
+and building a relationship with them. Help them understand your data,
+your challenges, and the opportunity for them. Most importantly, be
+patient and, again, don&#39;t compromise.</p>
 
-<p><strong><em>Data Scientists</em></strong> do not need any introduction. Lately, much has
-been said and written about this set of users. A quick search on the
-web will prove that. But this series is not about defining who they
-are. Instead it is about what they would like to do with
-data. Regardless of whether these users are statisticians with
-computer science degrees or computational experts in some specific
-field, their needs revolve around having access to any and every piece
-of data &mdash; big or small, structured or unstructured.  Often the
-discovery process and experimentation undertaken by this group may
-include diverse techniques ranging from simple data mining to applying
-various statistical algorithms to testing some hypothesis.  In the
-end, applying sophisticated statistical techniques and/or machine
-learning algorithms to create insights is the primary motivation
-behind the work of this user community. A few posts from one of my
-colleagues are an interesting read on this particular data consumer
-type: <a href="http://engineering.monsanto.com/2015/11/09/what-makes-a-data-scientist-part-1/">What makes a data scientist – Part 1</a> &amp;
-<a href="http://engineering.monsanto.com/2015/11/11/what-makes-a-data-scientist-part-2/">What makes a data scientist – Part 2</a>.</p>
+<p><strong>Investing in existing talent.</strong> It is unlikely that your entire
+current team will be able to master the necessary skills to grow into
+Data Scientists. Just like when looking externally, spend the time to
+build relationships with your team. Understand your team members and
+their capabilities and desires. Once you find that handful who have
+the desire and ability, be clear about your expectations and clearly
+define the new roles and new opportunities. There are a lot of online
+resources for your teams, both free and paid. Take advantage of
+these. Similar to attracting good talent, set a menu of skills that
+are needed and work with you team and your leaders to set a clear path
+to success. Some will succeed and some will not, you need to be okay
+with that.</p>
 
-<p><strong><em>Machines</em></strong> operate on data and need data to operate. Despite this
-fact, in the data world the needs of this voiceless group is often
-overlooked.  With increased mechanization and automation,
-system-to-system communication is only increasing in importance and
-scale. Whether it is data collected through sensors and passed on to
-other systems for processing or data made available via APIs for
-general consumption by external users or partners, the fact remains
-that most companies are still trying to shore up their ability to
-service this important category of consumers.</p>
-
-<p>In conclusion, the message is simple. It is critical to understand the
-needs of those you serve. Such a basic yet crucial piece of
-information should be a precursor to everything else that
-follows. Whether it is creating a reference architecture or standing
-up a scalable analytical platform, one thing is immediately apparent
-from Figure 1: the platform will need to cover use cases ranging from
-machine learning to ad hoc analysis, data analysis to sophisticated
-analytics, and from simple information consumption through APIs to
-machine-to-machine communication. A key mandate for a successful
-analytical platform is to make sure that the need of each consumer
-type is addressed holistically in helping them turn data into useful
-information and insights.</p>
+<p>Buying or building, that&#39;s the historical software trade off. When
+establishing a team of true Data Scientists, you face a similar
+question of hire externally or develop internal talent. The most
+correct answer is a combination of both. Looking externally and
+developing talent both take time and resources. Neither is a silver
+bullet, but both need to be approached with a no compromise attitude
+and clear expectations. Finding or helping to create that unicorn
+takes direct involvement and commitment from top executives, managers,
+and the people doing the work. In either case, make sure you are not
+just gluing a horn on to a mule can calling it a unicorn. Through hard
+work, the truly talented team members will have fun <em>and</em> create
+value.</p>
 
 
                 
 
                         <div class="post-signature multiple">
-                            posted on November 13, 2015 by <br>
+                            posted on November 16, 2015 by <br>
                         
 
 
                             <div class="author">
                                 
-                                <img src="https://avatars1.githubusercontent.com/u/12257134?v=3&s=40">
+                                <img src="https://avatars1.githubusercontent.com/u/9697696?v=3&s=40">
                                 
                                     <span>
-                                        Naghman Waheed
+                                        Seth Dobrin
                                     </span>
 
                                 
-                                <a  href="https://twitter.com/nnwahe">
+                                <a  href="https://twitter.com/sdobrin">
                                     <i class="fa fa-twitter fa-1x "></i>
                                 </a>
                                 
                                 
-                                <a  href="https://github.com/nnwahe">
+                                <a  href="https://github.com/dr-seth">
                                     <i class="fa fa-github fa-1x"></i>
                                 </a>
                                 
@@ -258,13 +243,9 @@ information and insights.</p>
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/11/12/simple-spray-part-2/" data-toggle="tooltip" data-placement="top" title="Building a simple Spray application - Part 2">&larr; Previous Post</a>
+                        <a href="/2015/11/13/analytics-part-1/" data-toggle="tooltip" data-placement="top" title="Anatomy of Analytics">&larr; Previous Post</a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2015/11/16/what-makes-a-data-scientist-part-3/" data-toggle="tooltip" data-placement="top" title="What Makes a Data Scientist - Part 3">Next Post &rarr;</a>
-                    </li>
                     
                 </ul>
 
