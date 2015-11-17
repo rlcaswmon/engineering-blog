@@ -47,7 +47,7 @@ approval process. Thanks
     Copy one of the exsting posts, and make some changes.
 
         cp _posts/2015-01-22-stoop-our-first-open-source-release.md _posts/2015-04-01-this-is-a-new-post.md
-        vi _posts/2015-04-01-this-is-a-new-post.md
+        emacs _posts/2015-04-01-this-is-a-new-post.md
 
     Again, be sure to update the 'frontmatter', that's the code
     between the `---` marks. Their functions are
@@ -60,7 +60,7 @@ approval process. Thanks
     example `about.html` and make some changes
 
         cp about.html new_page.html
-        vi new_page.html
+        emacs new_page.html
 
     Be sure to update the 'frontmatter', that's the code between the
     `---` marks. Their functions are self-explanitory. After that
