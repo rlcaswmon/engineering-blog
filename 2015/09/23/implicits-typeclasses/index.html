@@ -135,13 +135,13 @@
 <a href="http://engineering.monsanto.com/2015/07/31/implicit-conversions/">uses</a> of implicits. 
 One crucial pattern combines these techniques: Type classes.</p>
 
-<p><strong>Caution</strong>: please excuse the name. &quot;Type classes&quot; resembles neither types nor classes in a way useful for understanding.
- The pattern is called &quot;type classes&quot; for historical reasons.</p>
+<p><strong>Caution</strong>: please excuse the name. &ldquo;Type classes&rdquo; resembles neither types nor classes in a way useful for understanding.
+ The pattern is called &ldquo;type classes&rdquo; for historical reasons.</p>
 
 <p>Type classes extend functionality of classes without actually changing them, and with full type safety.
-This pattern is often used to add functionality to classes that we do not control. It&#39;s also useful for cross-cutting concerns.
+This pattern is often used to add functionality to classes that we do not control. It&rsquo;s also useful for cross-cutting concerns.
  Serialization is a cross-cutting concern, and <a href="https://github.com/spray/spray-json">spray-json</a> provides a practical example of the type class pattern.
- Let&#39;s see how it implements JSON serialization/deserialization for built-in classes.</p>
+ Let&rsquo;s see how it implements JSON serialization/deserialization for built-in classes.</p>
 
 <p><a href="https://github.com/spray/spray-json#usage">The documentation says</a> that any object can have the .toJson method 
 if we add a couple of imports.
@@ -149,7 +149,7 @@ if we add a couple of imports.
 import spray.json._
 import DefaultJsonProtocol._
 </pre>
-The two imports add some implicits to the compiler&#39;s magic hat. </p>
+The two imports add some implicits to the compiler&rsquo;s magic hat. </p>
 
 <p><img src="/img/typeclass-magic-hat-0.png" alt="the magic hat: implicit declarations go in, implicit parameter values come out"></p>
 
@@ -171,7 +171,7 @@ private[json] class <span class="pimpedAny">PimpedAny[T]</span>(any: T) {
 <p>Calling <span class="toJson">toJson</span> transforms an object into a <span class="jsValue">JsValue</span>, a representation of JSON data.
  Two methods on <span class="jsValue">JsValue</span>, prettyPrint and compactPrint, return a String we can transmit or save.</p>
 
-<p>Can we now serialize every single object, just like that? No. Not that easy. Here&#39;s the declaration again:
+<p>Can we now serialize every single object, just like that? No. Not that easy. Here&rsquo;s the declaration again:
 <pre>
 def <span class="toJson">toJson</span>(<span class="implicitparam">implicit writer: JsonWriter[T]</span>): <span class="jsValue">JsValue</span>
 </pre>
@@ -189,10 +189,10 @@ trait JsonWriter[T] {
 </pre>
 spray-json defines this trait, along with JsonReader for deserialization, and JsonFormat for both together. JsonFormat is the one we create, typically.
 Spray-json has built-in JsonFormat implementations for many common types; these lurk in DefaultJsonProtocol. 
-We bring all of them into implicit scope when we <code>import DefaultJsonProtocol._</code>. It&#39;s those JsonFormats that know how to serialize
+We bring all of them into implicit scope when we <code>import DefaultJsonProtocol._</code>. It&rsquo;s those JsonFormats that know how to serialize
 and deserialize JSON.</p>
 
-<p>For instance, there is an implicit JsonFormat[String]. In type class parlance, &quot;There is an instance of the JsonFormat type class for String.&quot; We can use it like this:
+<p>For instance, there is an implicit JsonFormat[String]. In type class parlance, &ldquo;There is an instance of the JsonFormat type class for String.&rdquo; We can use it like this:
 <pre>
 import spray.json._
 import DefaultJsonProtocol._ 
@@ -213,16 +213,16 @@ without changing the classes. All the usual types (String, Int, Seq, Map, Option
 <p><img src="/img/typeclass-magic-hat-1.png" style="max-height: 400px;margin: 0 auto" alt = "the magic hat: importing DefaultJsonProtocol puts a JsonFormat of String in the hat"/></p>
 
 <p>For our own class T, we make <span class="toJson">.toJson</span> work when we define an <span class="implicitparam">implicit val of type JsonFormat[T]</span>.
-This is called &quot;providing an instance of the JsonFormat type class for T.&quot; We can write these by hand, or use <a href="https://github.com/spray/spray-json#providing-jsonformats-for-case-classes">helper methods</a> from spray-json.
-There&#39;s even a <a href="https://github.com/fommil/spray-json-shapeless">project</a> that makes the compiler generate it all for case classes;
+This is called &ldquo;providing an instance of the JsonFormat type class for T.&rdquo; We can write these by hand, or use <a href="https://github.com/spray/spray-json#providing-jsonformats-for-case-classes">helper methods</a> from spray-json.
+There&rsquo;s even a <a href="https://github.com/fommil/spray-json-shapeless">project</a> that makes the compiler generate it all for case classes;
  the details are way outside the scope of this post.</p>
 
-<p>Here&#39;s the kicker: when we make a JsonFormat[MyClass], we get more than serialization/deserialization for MyClass.
-We can now call <span class="toJson">toJson</span> on MyClass, Seq[MyClass], on Map[String,MyClass], on Option[Map[MyClass,List[MyClass]]] -- without writing any extra code!</p>
+<p>Here&rsquo;s the kicker: when we make a JsonFormat[MyClass], we get more than serialization/deserialization for MyClass.
+We can now call <span class="toJson">toJson</span> on MyClass, Seq[MyClass], on Map[String,MyClass], on Option[Map[MyClass,List[MyClass]]] &ndash; without writing any extra code!</p>
 
 <p>This is the killer feature of the type class pattern: it composes.
-One <span class="implicitdef">generic definition of JsonFormat[List[T]]</span> means a List of any JsonFormat-able T is also JsonFormat-able. T could be String, Int, Long, MyClass -- you name it, if we can format it, we can also format Lists of it.
-Here&#39;s the trick: instead of an <span class="implicitparam">implicit val</span> for JsonFormat of List, there is an <span class="implicitdef">implicit def</span> in DefaultJsonFormat:</p>
+One <span class="implicitdef">generic definition of JsonFormat[List[T]]</span> means a List of any JsonFormat-able T is also JsonFormat-able. T could be String, Int, Long, MyClass &ndash; you name it, if we can format it, we can also format Lists of it.
+Here&rsquo;s the trick: instead of an <span class="implicitparam">implicit val</span> for JsonFormat of List, there is an <span class="implicitdef">implicit def</span> in DefaultJsonFormat:</p>
 
 <pre>
     <span class="implicitdef">implicit def</span> listFormat[<span class="contextbound">T : JsonFormat</span>] = new RootJsonFormat[List[T]] {
@@ -233,7 +233,7 @@ Here&#39;s the trick: instead of an <span class="implicitparam">implicit val</sp
 
 <p>What is this doing? First, we have to understand some new syntax: inside the <span class="contextbound">type parameter, there is a colon, followed by a type class</span>. 
 This is called <a href="http://docs.scala-lang.org/tutorials/FAQ/context-and-view-bounds.html">Context Bounds</a> (good luck finding the documentation without knowing this special name).
-This is shorthand for &quot;<span class="contextbound">a type T such that there exists in the magic hat a JsonFormat[T]</span>&quot;.
+This is shorthand for &ldquo;<span class="contextbound">a type T such that there exists in the magic hat a JsonFormat[T]</span>&rdquo;.
 The context-bounds notation above expands to:</p>
 
 <pre>
@@ -257,7 +257,7 @@ The compiler calls as many of these implicit functions, as many times as needed,
 <p><img src="/img/typeclass-magic-hat-3.png" style="max-height: 400px;margin: 0 auto" 
 alt = "the magic hat: to satisfy the implicit parameter of type JsonFormat of Seq of T, the magic hat uses both these values"/></p>
 
-<p>This works on types as complicated as we want. Let&#39;s say we want to serialize an Option[Map[String,List[Int]]]:</p>
+<p>This works on types as complicated as we want. Let&rsquo;s say we want to serialize an Option[Map[String,List[Int]]]:</p>
 
 <pre>
 import spray.json._
@@ -287,18 +287,18 @@ val json = new PimpedAny[Option[Map[String,List[Int]]]](a).<span class="toJson">
 println(json.prettyPrint)
 </pre></p>
 
-<p>Whew, that&#39;s a lot of magic. The compiler does all that composition for us. This property of implicit parameters makes the type class pattern very useful.</p>
+<p>Whew, that&rsquo;s a lot of magic. The compiler does all that composition for us. This property of implicit parameters makes the type class pattern very useful.</p>
 
-<p>That much magic also means it&#39;s hard to understand. 
- While you&#39;ll rarely need to create your own types in the style of JsonFormat,
-you&#39;ll often want to create new type class instances, such as JsonFormat[MyClass]. Other times you need to find the right ones to import.
+<p>That much magic also means it&rsquo;s hard to understand. 
+ While you&rsquo;ll rarely need to create your own types in the style of JsonFormat,
+you&rsquo;ll often want to create new type class instances, such as JsonFormat[MyClass]. Other times you need to find the right ones to import.
 Either way, familiarity with the pattern is essential when using spray-json and many other libraries.</p>
 
 <p>Spray-routing, a library for writing RESTful services, uses this pattern for a lot of things, including returning data, and to avoid some pitfalls of method overloading.
-They call it the &#39;magnet pattern&#39; and try to get you to read <a href="http://spray.io/blog/2012-12-13-the-magnet-pattern/">a post much, much longer than this one</a>.
-Ultimately it&#39;s the same pattern, used for different properties.</p>
+They call it the &lsquo;magnet pattern&rsquo; and try to get you to read <a href="http://spray.io/blog/2012-12-13-the-magnet-pattern/">a post much, much longer than this one</a>.
+Ultimately it&rsquo;s the same pattern, used for different properties.</p>
 
-<p>In some ways, the type class pattern is the culmination of Scala&#39;s implicit feature. If this post makes sense, then you&#39;re well on your way to Scala mastery.</p>
+<p>In some ways, the type class pattern is the culmination of Scala&rsquo;s implicit feature. If this post makes sense, then you&rsquo;re well on your way to Scala mastery.</p>
 
 
                 

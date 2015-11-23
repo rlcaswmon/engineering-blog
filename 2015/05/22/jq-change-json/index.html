@@ -148,7 +148,7 @@ Using <code>jq</code>, I can do this from the command line. That means I can scr
 }]
 </code></pre></div>
 
-<p>The JSON is an array of objects, each with ParameterKey and ParameterValue. I want to change the ParameterValue for <span class="projectKey">a particular ParameterKey</span>. Here&#39;s the syntax:</p>
+<p>The JSON is an array of objects, each with ParameterKey and ParameterValue. I want to change the ParameterValue for <span class="projectKey">a particular ParameterKey</span>. Here&rsquo;s the syntax:</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">cat config.json | 
   jq '<span class="map">map</span>(if .ParameterKey == "<span class="projectKey">Project</span>"
@@ -158,10 +158,10 @@ Using <code>jq</code>, I can do this from the command line. That means I can scr
          )' > populated_config.json
 </code></pre></div>
 
-<p>This says, &quot;<span class="map">For each object in the array</span>:
-check if ParameterKey is &quot;<span class="projectKey">Project</span>&quot;. If so,
+<p>This says, &ldquo;<span class="map">For each object in the array</span>:
+check if ParameterKey is &rdquo;<span class="projectKey">Project</span>&ldquo;. If so,
 <span class="plus">combine</span> <span class="dot">that object</span>
-with <span class="newValue">this other one</span> (right-hand-side values win, so my ParameterValue overrides the existing one). If not, leave <span class="dot">the object</span> alone.&quot; 
+with <span class="newValue">this other one</span> (right-hand-side values win, so my ParameterValue overrides the existing one). If not, leave <span class="dot">the object</span> alone.&rdquo; 
 The output file now contains</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">[{
@@ -176,7 +176,7 @@ The output file now contains</p>
 
 <p>Hooray! The <code>jq</code> <span class="map">map</span> function, combined with a conditional, let me change a particular value.</p>
 
-<p>Since I do this often, and I&#39;m on a Mac, I made a crude bash function and threw it in my <a href="http://web.physics.ucsb.edu/%7Epcs/apps/bash/intro-bash.html">.bash_profile</a> so it will always be available:</p>
+<p>Since I do this often, and I&rsquo;m on a Mac, I made a crude bash function and threw it in my <a href="http://web.physics.ucsb.edu/%7Epcs/apps/bash/intro-bash.html">.bash_profile</a> so it will always be available:</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">function populate-config() { 
   jq "<span class="map">map</span>(if .ParameterKey == \"<span class="projectKey">$1</span>\" 
@@ -197,7 +197,7 @@ The output file now contains</p>
 
 <p>CAUTION:</p>
 
-<p>The <code>jq</code> <span class="map">map</span> function works on arrays. It&#39;s easy in this config file, because the JSON happens to be an array. If instead I&#39;m changing a value within an object, such as:</p>
+<p>The <code>jq</code> <span class="map">map</span> function works on arrays. It&rsquo;s easy in this config file, because the JSON happens to be an array. If instead I&rsquo;m changing a value within an object, such as:</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">{
   "<span class="projectKey">honesty</span>": "Apple Jack",
@@ -206,7 +206,7 @@ The output file now contains</p>
 }
 </code></pre></div>
 
-<p>then I must <span class="toEntries">convert the object&#39;s properties to an array</span>, <span class="map">map</span> over that array and then <span class="fromEntries">convert the array back into an object</span>.</p>
+<p>then I must <span class="toEntries">convert the object&rsquo;s properties to an array</span>, <span class="map">map</span> over that array and then <span class="fromEntries">convert the array back into an object</span>.</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">cat ponies.json | 
   jq '<span class="toEntries">to_entries</span> | 
@@ -231,7 +231,7 @@ The output file now contains</p>
 
 <p>FURTHER INVESTIGATION:</p>
 
-<p>You might ask, how do I modify arrays of objects nested inside other objects? If you find the answer, please ping us on twitter <a href="http://twitter.com/MonPlatformEng">@MonPlatformEng</a> because I&#39;m wondering this too.</p>
+<p>You might ask, how do I modify arrays of objects nested inside other objects? If you find the answer, please ping us on twitter <a href="http://twitter.com/MonPlatformEng">@MonPlatformEng</a> because I&rsquo;m wondering this too.</p>
 
 
                 

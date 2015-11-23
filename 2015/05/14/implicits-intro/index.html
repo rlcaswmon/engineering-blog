@@ -126,19 +126,19 @@ language, they are very hard to avoid: most major libraries in Scala, starting
 from Scala collections, make heavy use of implicits. That use is not invisible
 to the users of the library, especially when we choose to look at the code. The
 other tricky part about implicits is that there are so many ways to use them,
-each with a different reason and pattern.  They can&#39;t be fully explained in one
+each with a different reason and pattern.  They can&rsquo;t be fully explained in one
 coherent post.</p>
 
-<p>This post explains one important use pattern on implicit parameters. It&#39;s a
+<p>This post explains one important use pattern on implicit parameters. It&rsquo;s a
 good place to start for understanding the hows and whys of Scala implicits.</p>
 
 <p>Reflection lets us ask about type information at runtime.  Java provides the
 <code>.class</code> method on all objects, but it is limited: type parameters are
-invisible at runtime.  Scala&#39;s TypeTags can give us details about type
+invisible at runtime.  Scala&rsquo;s TypeTags can give us details about type
 parameters that the Java compiler would normally erase.  And what is the
 easiest and most common way of obtaining a TypeTag? An implicit parameter.</p>
 
-<p>So for this exercise, we&#39;ll see <span class="get-inner-type">a little
+<p>So for this exercise, we&rsquo;ll see <span class="get-inner-type">a little
 method</span> that takes a List, and returns the <span class="type-name">type
 name</span> of the <span class="T"> contents of the list</span> .</p>
 
@@ -166,7 +166,7 @@ instead of being passed manually. In the case of TypeTags and
 ClassTags, we do not have to do anything to make them work: the
 compiler will always be able to provide an implicit TypeTag or
 ClassPath parameter for all real classes (as opposed to generics,
-which we&#39;ll cover in a minute).</p>
+which we&rsquo;ll cover in a minute).</p>
 
 <p>The context of the call to getInnerType knows that <code>stringList</code> is a
 <code>List[String]</code>, so the compiler fills in the implicit for us.  The
@@ -182,9 +182,9 @@ println( s"a list of $stringName")
 <p>That typeTag method is defined in the scala.reflect.runtime.universe
 object, and it triggers the same compiler magic as any request for an
 implicit <code>TypeTag[T]</code>.  TypeTag is special: instances of TypeTag are
-brought into being by Scala&#39;s compiler. This contrasts with every
+brought into being by Scala&rsquo;s compiler. This contrasts with every
 other implicit parameter, supplied (one way or another) by the
-programmer. That&#39;s why this is a great implicit to start with: see how
+programmer. That&rsquo;s why this is a great implicit to start with: see how
 to ask for it, before you learn how to supply it.</p>
 
 <p>The compiler is able to provide a TypeTag in this instance, because it
@@ -260,7 +260,7 @@ println( s"a list of $stringName")
 </code></pre></div>
 
 <p>Comparing the code with implicits and the one without, there is one
-major difference: The top level code doesn&#39;t have a trace of the
+major difference: The top level code doesn&rsquo;t have a trace of the
 TypeTag, so we do not have to know it is required. The compiler takes
 care of it. We pay a little bit in complexity in the code that
 receives the implicit parameter, in exchange for simpler calling code.
