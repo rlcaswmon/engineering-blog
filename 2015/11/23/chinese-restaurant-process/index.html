@@ -324,10 +324,10 @@ Iteration 200: cluster count was 3, reseat: 12, score: -28724.77273</p>
 <p>In the naive implementation, we actually call logGamma on a <code>Double</code>. But that <code>Double</code> is really the value of the sum of some counts (an <code>Int</code>) and a prior probability term that certainly needs to be a <code>Double</code> because we often want values &lt;1. So we pulled a couple of tricks:</p>
 
 <ul>
-<li>The value of that prior <code>Double</code> is constant for the whole run, its not unknown, so what if we just add it <em>inside</em> a caching function? Now its a function of an <code>Int</code>.</li>
+<li>The value of that prior <code>Double</code> is constant for the whole run, it&rsquo;s not unknown, so what if we just add it <em>inside</em> a caching function? Now it&rsquo;s a function of an <code>Int</code>.</li>
 <li>This is a function of positive <code>Int</code>&rsquo;s over count data. So if we can assume some bounded size, there are a very small number of possible output values. Even if we allow the range 0-1,000,000 of input values, that&rsquo;s a tiny amount of memory and computes the function 1,000,000 times fewer! In fact we can just call the slow version if we&rsquo;re outside that range with a low-overhead if-check.</li>
 <li>We can even do better than using a <code>Map[Int, Double]</code>, since this is a function of Int (plus that double we add inside the function) we can just do direct lookups in an <code>Array</code> indexed by the argument.</li>
-<li>Turns out its a lot of conditional logic and possible cache-blowing to check and fill in the map dynamically, we can just pre-fill the whole thing very fast on program startup. </li>
+<li>Turns out it&rsquo;s a lot of conditional logic and possible cache-blowing to check and fill in the map dynamically, we can just pre-fill the whole thing very fast on program startup. </li>
 </ul>
 
 <p>There&rsquo;s another 10&times;.</p>
