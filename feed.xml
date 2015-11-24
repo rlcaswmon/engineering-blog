@@ -7,18 +7,6 @@
         <atom:link href="http://engineering.monsanto.com/feed.xml" rel="self" type="application/rss+xml" />
         
             <item>
-                <title>Optimized Chinese Restaurant Process</title>
-                
-                
-                    <description>&lt;h2&gt;TL;DR&lt;/h2&gt;
-</description>
-                
-                <pubDate>Mon, 23 Nov 2015 00:00:00 -0600</pubDate>
-                <link>http://engineering.monsanto.com/2015/11/23/chinese-restaurant-process/</link>
-                <guid isPermaLink="true">http://engineering.monsanto.com/2015/11/23/chinese-restaurant-process/</guid>
-            </item>
-        
-            <item>
                 <title>What Makes a Data Scientist - Part 3</title>
                 
                 
@@ -38,12 +26,12 @@
 programming, concepts such as function overloading fascinated me.  A
 single function changing and behaving based on the types of values
 passed to it spoke volumes to its simplicity and elegance. Feeling a
-bit nostalgic I am going to say, &amp;ldquo;Those were the good old days!&amp;rdquo;
+bit nostalgic I am going to say, &amp;quot;Those were the good old days!&amp;quot;
 Today, the word &lt;strong&gt;&lt;em&gt;Analytics&lt;/em&gt;&lt;/strong&gt; is certainly an overloaded term in the
 data world!  It is used to define work done by data scientists to
 business analysts and from execution of sophisticated statistical
-algorithms to the use of simple visualization tools. Oh, and let&amp;rsquo;s not
-forget its synonymous use with the term &amp;ldquo;Big Data.&amp;rdquo; I wish I could
+algorithms to the use of simple visualization tools. Oh, and let&amp;#39;s not
+forget its synonymous use with the term &amp;quot;Big Data.&amp;quot; I wish I could
 muster up the same sense of euphoria for the overloaded term
 &lt;strong&gt;&lt;em&gt;Analytics&lt;/em&gt;&lt;/strong&gt; that I once felt for the use of overloaded functions
 in a class definition.&lt;/p&gt;
@@ -104,7 +92,7 @@ services announced, especially those around the EC2 Container Service,
 Kinesis, IoT, AWS Config, and the data import/export device Snowball.
 We also gave a few talks and look forward to connecting and
 collaborating with the many that came up after the talks and spoke to
-us. If you couldn&amp;rsquo;t attend in person, have a look and
+us. If you couldn&amp;#39;t attend in person, have a look and
 &lt;a href=&quot;http://engineering.monsanto.com/contact/&quot; title=&quot;Contact Monsanto Engineering&quot;&gt;let us know what you think&lt;/a&gt;.&lt;/p&gt;
 </description>
                 
@@ -135,8 +123,8 @@ i.e., phones and tablets, more and more people are consuming cloud
 services like GMail, DropBox, Instagram, and Office365. These Software
 as a Service (SaaS) solutions are convenient for people on the go
 because the information they need is always easily accessible through
-a web browser or mobile app. This is possible because the user&amp;rsquo;s data
-and preferences are stored &amp;ldquo;in the cloud&amp;rdquo;, using servers and services
+a web browser or mobile app. This is possible because the user&amp;#39;s data
+and preferences are stored &amp;quot;in the cloud&amp;quot;, using servers and services
 managed by someone else, typically the operator of the SaaS
 solution. While these SaaS solutions are convenient for end users,
 they do not allow for much customization. To develop custom
@@ -163,6 +151,25 @@ Some of the things we wanted to improve included:&lt;/p&gt;
                 <pubDate>Thu, 24 Sep 2015 00:00:00 -0500</pubDate>
                 <link>http://engineering.monsanto.com/2015/09/24/better-spray-metrics-with-kamon/</link>
                 <guid isPermaLink="true">http://engineering.monsanto.com/2015/09/24/better-spray-metrics-with-kamon/</guid>
+            </item>
+        
+            <item>
+                <title>Learn implicits: Type classes</title>
+                
+                
+                    <description>&lt;style scoped&gt;
+  .pimpedAny { color: #D907E8 }
+  .implicitdef { color: #1AB955 }
+  .implicitparam { color: #FF9C00 }
+  .toJson {color: #BA182F }
+  .jsValue {color: #08B9D1 }
+  .contextbound {color: #D15308 }
+&lt;/style&gt;
+</description>
+                
+                <pubDate>Wed, 23 Sep 2015 00:00:00 -0500</pubDate>
+                <link>http://engineering.monsanto.com/2015/09/23/implicits-typeclasses/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/09/23/implicits-typeclasses/</guid>
             </item>
         
     </channel>

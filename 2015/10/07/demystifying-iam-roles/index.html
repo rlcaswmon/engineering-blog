@@ -180,9 +180,9 @@ is a bit more complicated than it sounds, especially when using
 <a href="https://aws.amazon.com/cloudformation/" title="AWS CloudFormation Documentation">AWS CloudFormation</a>.</p>
 
 <p>Since at Monsanto we use <a href="http://engineering.monsanto.com/2015/07/10/cloudformation-template-generator/" title="CloudFormation Template Generator blog post">CloudFormation extensively</a>,
-we&rsquo;ve thought a lot about how best to leverage IAM Roles when we
+we&#39;ve thought a lot about how best to leverage IAM Roles when we
 create templates using our
-<a href="https://github.com/MonsantoCo/cloudformation-template-generator" title="CloudFormation Template Generator GitHub">CloudFormation Template Generator (CFTG)</a>.  We think we&rsquo;ve come
+<a href="https://github.com/MonsantoCo/cloudformation-template-generator" title="CloudFormation Template Generator GitHub">CloudFormation Template Generator (CFTG)</a>.  We think we&#39;ve come
 up with a straightforward, easy to comprehend way to create IAM Roles
 and assign them to EC2 instances in CloudFormation templates.  So how
 do we do it?</p>
@@ -219,7 +219,7 @@ resources.</p>
 
 <h3>Roles for each instance type</h3>
 
-<p>The next thing you do is to create an &ldquo;empty&rdquo; role for each type of
+<p>The next thing you do is to create an &quot;empty&quot; role for each type of
 instance you need, associating the role with the
 <code>assumeRolePolicyDocument</code> just created.  This association tells AWS
 what kind of role this is.  In this case, a role that allows EC2
@@ -610,7 +610,7 @@ place to update when changes need to be made.</p>
 
 <p>We hope this walk through of how we create and assign IAM Roles in
 CloudFormation is helpful.  If you have a different approach or ideas
-on how to improve our approach, <a href="http://engineering.monsanto.com/contact/" title="Contact Us">we&rsquo;d love to hear them</a>.</p>
+on how to improve our approach, <a href="http://engineering.monsanto.com/contact/" title="Contact Us">we&#39;d love to hear them</a>.</p>
 
 
                 

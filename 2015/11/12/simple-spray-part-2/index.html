@@ -126,7 +126,7 @@ constructed correctly.</p>
 
 <p>You can feel free to download the
 <a href="https://github.com/MonsantoCo/simple-spray-with-routing">code</a> and
-follow along.  I&rsquo;ve separated the different sections into their own
+follow along.  I&#39;ve separated the different sections into their own
 packages, so when running the code change the <code>import
 demo.PACKAGE.ServiceActor</code> in Main.scala to the appropriate package.</p>
 
@@ -180,9 +180,9 @@ something like this:</p>
 <span class="o">}</span>
 </code></pre></div>
 <p>For a simple situation, doing everything in one trait is fine.
-However you&rsquo;re probably going to end up doing something much larger,
+However you&#39;re probably going to end up doing something much larger,
 and stuffing everything together will get very confusing with all the
-nesting that goes on.  Also there&rsquo;s not really a good relationship
+nesting that goes on.  Also there&#39;s not really a good relationship
 between <em>junk</em> and <em>stuff</em>, so separating that is probably a good
 idea.</p>
 
@@ -232,7 +232,7 @@ sounds</p>
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Note that in each trait I&rsquo;ve defined a <em>routes</em> property.  This is
+<p>Note that in each trait I&#39;ve defined a <em>routes</em> property.  This is
 simply a convention, you can call it whatever you wish.  However using
 this convention has a small price.  Recall our service actor:</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">SampleServiceActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="k">with</span> <span class="nc">SampleRoute</span> <span class="o">{</span>
@@ -242,7 +242,7 @@ this convention has a small price.  Recall our service actor:</p>
 </code></pre></div>
 <p>We extend the route trait and pass in the routes property to the
 <em>runRoute</em> method to setup the required <em>receive</em> action.  If we
-always call the property <em>routes</em> on all our traits, we&rsquo;re going to
+always call the property <em>routes</em> on all our traits, we&#39;re going to
 hit some conflicts when we extend all of these traits.  The solution
 is to no longer extend them, but to instantiate them inside our actor
 instead.  This also means we need to extend from <em>HttpServiceActor</em>
@@ -267,17 +267,17 @@ contains the framework we need.  The final code looks like this:</p>
 
 <h3>Ordering matters</h3>
 
-<p>While it&rsquo;s a good idea to separate your different contexts this way,
+<p>While it&#39;s a good idea to separate your different contexts this way,
 you can possibly run into an issue where you have path conflicts.  To
-show this, append the code below to the end of each trait&rsquo;s <em>routes</em>
+show this, append the code below to the end of each trait&#39;s <em>routes</em>
 property:</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">~</span> <span class="n">get</span> <span class="o">{</span> <span class="n">complete</span><span class="o">(</span><span class="s">&quot;root from stuff|junk&quot;</span><span class="o">)</span> <span class="o">}</span>
 </code></pre></div>
 <p>Run the app and access your root, you should only see the message from
 the <em>stuff</em> service.  Change the ordering of the routes in the
-<em>runRoute</em> method and try again, you should see the <em>junk</em> service&rsquo;s
-response.  It get&rsquo;s worse, now try to access the <em>/stuff</em> context,
-you&rsquo;ll notice the same root message again.</p>
+<em>runRoute</em> method and try again, you should see the <em>junk</em> service&#39;s
+response.  It get&#39;s worse, now try to access the <em>/stuff</em> context,
+you&#39;ll notice the same root message again.</p>
 
 <p>Remember that Spray looks for the first match, so the order you link
 the routes matters.  If you have a general fallback in a trait early
@@ -290,7 +290,7 @@ tacking on a custom 404 for a context if nothing matches.  If put at
 too high a level, it will actually block all other contexts.</p>
 
 <p>Now that we know how to split up our services into more managable
-chunks, let&rsquo;s revisit how paths are built.</p>
+chunks, let&#39;s revisit how paths are built.</p>
 
 <h2>Constructing paths more cleanly</h2>
 
@@ -306,8 +306,8 @@ like so:</p>
             <span class="o">}</span>
         <span class="o">}</span> <span class="o">...</span>
 </code></pre></div>
-<p>There is a way to condense this somewhat. While <em>path(&ldquo;junk/mine&rdquo;)</em>
-doesn&rsquo;t work, you can separate the strings with the <em>/</em> character into
+<p>There is a way to condense this somewhat. While <em>path(&quot;junk/mine&quot;)</em>
+doesn&#39;t work, you can separate the strings with the <em>/</em> character into
 something that does work.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">routes</span> <span class="k">=</span> <span class="n">path</span><span class="o">(</span><span class="s">&quot;junk&quot;</span> <span class="o">/</span> <span class="s">&quot;mine&quot;</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">get</span> <span class="o">{</span>
@@ -320,11 +320,11 @@ something that does work.</p>
     <span class="o">}</span>
 </code></pre></div>
 <p>But the main benefit here is that it allows an easy way to grab path
-parameters.  To illustrate this, let&rsquo;s go back to our <em>stuff</em> route.</p>
+parameters.  To illustrate this, let&#39;s go back to our <em>stuff</em> route.</p>
 
-<p>Currently the <em>GET</em> operation just returns a single item, let&rsquo;s change
-that to return something by id, pretending we&rsquo;re talking to a data
-store.  Instead of putting another string after the <em>/</em> we&rsquo;ll instead
+<p>Currently the <em>GET</em> operation just returns a single item, let&#39;s change
+that to return something by id, pretending we&#39;re talking to a data
+store.  Instead of putting another string after the <em>/</em> we&#39;ll instead
 just put in a Spray type matcher.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">stuffMap</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="nc">Stuff</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;my stuff&quot;</span><span class="o">),</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="nc">Stuff</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">&quot;your stuff&quot;</span><span class="o">))</span>
 <span class="k">val</span> <span class="n">routes</span> <span class="k">=</span> <span class="o">{</span>
@@ -354,16 +354,16 @@ like the following:</p>
 <p>Go ahead and modify your code with these changes and give it a try.
 You should get different answers for a call to <em>stuff/1</em> vs <em>stuff/2</em>.</p>
 
-<p>You might also want to try <em>stuff/3</em>, you&rsquo;ll see we get an internal
-server error, but that&rsquo;s not what we really want.  Which brings us
-to&hellip;.</p>
+<p>You might also want to try <em>stuff/3</em>, you&#39;ll see we get an internal
+server error, but that&#39;s not what we really want.  Which brings us
+to....</p>
 
 <h2>Rejecting requests</h2>
 
 <p>In the case above, a <strong>404 - Not Found</strong> seems to be the response we
 really want.  Luckilly the <em>complete</em> method is overloaded to allow us
 to do this easily by passing a status (<strong>import
-spray.http.StatusCodes._</strong>) as the first parameter.  Let&rsquo;s see how
+spray.http.StatusCodes._</strong>) as the first parameter.  Let&#39;s see how
 this looks in our <em>stuff</em> service.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">spray.http.StatusCodes._</span>
 <span class="o">...</span>
@@ -384,8 +384,8 @@ get the correct <strong>404 - Not Found</strong> error with our message included
 
 <p>In certain cases you might want a quick way to send a <strong>400 - Bad
 Request</strong> defined in your path structure.  For instance, we send a
-<strong>404 - Not Found</strong> if the id isn&rsquo;t available, but what if we wanted
-to tell the user that an <em>id</em> less than 1 wasn&rsquo;t only not found, but
+<strong>404 - Not Found</strong> if the id isn&#39;t available, but what if we wanted
+to tell the user that an <em>id</em> less than 1 wasn&#39;t only not found, but
 was an incorrect usage?  The <em>validate</em> directive gives us a quick way
 to do this.  Our code now looks like this:</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">...</span>
@@ -403,9 +403,9 @@ to do this.  Our code now looks like this:</p>
 </code></pre></div>
 <h3>Using Exception Handlers</h3>
 
-<p>There&rsquo;s another way to handle common cases.  Let&rsquo;s say we want an
+<p>There&#39;s another way to handle common cases.  Let&#39;s say we want an
 <em>IllegalArgumentException</em> to automatically be translated into a
-<strong>400 - Bad Request</strong>.  In fact let&rsquo;s modify our <em>POST</em> call to
+<strong>400 - Bad Request</strong>.  In fact let&#39;s modify our <em>POST</em> call to
 <em>stuff</em> to make that happen if it receives and id less than 1</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">...</span>
 <span class="n">path</span><span class="o">(</span><span class="s">&quot;stuff&quot;</span><span class="o">)</span> <span class="o">{</span>
@@ -418,7 +418,7 @@ to do this.  Our code now looks like this:</p>
 <span class="o">}</span>
 <span class="o">....</span>
 </code></pre></div>
-<p>If you run this code as it is, you&rsquo;ll end up with an <strong>500 - Internal
+<p>If you run this code as it is, you&#39;ll end up with an <strong>500 - Internal
 Server Error</strong>.  However, you can attach an <em>ExceptionHandler</em> to your
 <em>ServiceActor</em> class to automatically take care of this for you.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">spray.http.StatusCodes._</span>
@@ -446,16 +446,16 @@ Server Error</strong>.  However, you can attach an <em>ExceptionHandler</em> to 
 <p>Try running the service now and do a <em>POST</em> with an id less than 1,
 you should see the correct HTTP response and message.</p>
 
-<h2>In the end&hellip;.</h2>
+<h2>In the end....</h2>
 
 <p>Spray gives you a lot of flexibility to setup your routes and
 responses in a way that works best for your application.  I recommend
 starting with the basic nesting and refactoring to other formats as
 you get more complex.  Decide early on your strategy of returning
-errors, so you&rsquo;re not just shimming it in later.  Correct error
+errors, so you&#39;re not just shimming it in later.  Correct error
 responses will save you tons of support hours.</p>
 
-<p>In the next installment I&rsquo;ll go over Unit Testing and including
+<p>In the next installment I&#39;ll go over Unit Testing and including
 Swagger documentation (and how that might affect your route
 construction).</p>
 

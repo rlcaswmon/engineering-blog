@@ -125,7 +125,7 @@
 <p>Implicit conversions, also called views, are a powerful and dangerous friend. 
 They are useful for avoiding boilerplate, but used improperly they lead to confusion.</p>
 
-<p>Even if you didn&rsquo;t know they existed, I bet you&rsquo;ve used them already. Let&rsquo;s look at a very simple example, using the scala REPL:</p>
+<p>Even if you didn&#39;t know they existed, I bet you&#39;ve used them already. Let&#39;s look at a very simple example, using the scala REPL:</p>
 
 <pre>
 scala> val s = "fluttershy"
@@ -157,7 +157,7 @@ Except java.lang.String does not have a <span class="capitalize">capitalize</spa
  method is a part of <a href="https://github.com/scala/scala/blob/6ca8847eb5891fa610136c2c041cbad1298fb89c/src/library/scala/collection/immutable/StringLike.scala#L141">StringLike</a>.</p>
 
 <p>Somehow our String got converted into a StringLike, to call <span class="capitalize">capitalize</span>
-. But we didn&rsquo;t do anything!</p>
+. But we didn&#39;t do anything!</p>
 
 <p>Scala automatically imports <code>scala.Predef</code> everywhere. Among many other things, Predef contains:</p>
 
@@ -171,16 +171,16 @@ has the StringLike trait which includes the <span class="capitalize">capitalize<
 
 <p>So what does that <span class="implicitdef">implicit def</span> mean?</p>
 
-<p>Any time we try to call a method that doesn&rsquo;t exist (or when a parameter doesn&rsquo;t match the expected type),
+<p>Any time we try to call a method that doesn&#39;t exist (or when a parameter doesn&#39;t match the expected type),
  the compiler attempts to use a view to make it match.
 A view is a single-parameter function or constructor, declared with the <span class="implicitdef">implicit</span> keyword in front of it. The  <span class="implicitdef">implicit</span>  keyword tells the compiler
 that it can use this function automatically, for as long as it is in scope.</p>
 
-<p>It&rsquo;s almost as if Scala added methods without changing java.lang.String. No manual wrapping: it&rsquo;s almost invisible. Sounds convenient!</p>
+<p>It&#39;s almost as if Scala added methods without changing java.lang.String. No manual wrapping: it&#39;s almost invisible. Sounds convenient!</p>
 
 <p>All this power comes with downsides. If a programmer is not familiar with all the views in scope, the code is harder to interpret.
-There&rsquo;s also the temptation to define very wide conversions. Everyone does it, and later regrets it.
-Let&rsquo;s say that some classes take a lot of Options:</p>
+There&#39;s also the temptation to define very wide conversions. Everyone does it, and later regrets it.
+Let&#39;s say that some classes take a lot of Options:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">case class Octopus(name : Option[String], tentacles : Option[Int], phoneNumber : Option[String])
 
 val a = Octopus(Some(name), Some(tentacles), Some(phone))
@@ -194,10 +194,10 @@ val a = Octopus(Some(name), Some(tentacles), Some(phone))
 <p>Which lets this call work:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">val a = Octopus(name, tentacles, phone)
 </code></pre></div>
-<p>Sounds great, right? We never have to wrap any values anymore! What&rsquo;s the worst that could happen?</p>
+<p>Sounds great, right? We never have to wrap any values anymore! What&#39;s the worst that could happen?</p>
 
 <p>Wherever that implicit function is in scope, any syntax error that could be fixed by wrapping anything into an Option will be 
-&ldquo;fixed&rdquo; that way, whether it makes sense or not.</p>
+&quot;fixed&quot; that way, whether it makes sense or not.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">val aList = List(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)
 val anInt = 42
 val something = Octopus(&quot;Angry Bob&quot;,7,&quot;(888)-444-3333&quot;)
@@ -207,7 +207,7 @@ anInt.isEmpty
 something.isEmpty
 </code></pre></div>
 <p>List and Option define <code>isEmpty</code>. If you think you have a List, but you really have an Octopus, 
-the compiler will use your view, give you an Option[Octopus], and <code>isEmpty</code> will compile! That&rsquo;s not what we wanted when we defined our view,
+the compiler will use your view, give you an Option[Octopus], and <code>isEmpty</code> will compile! That&#39;s not what we wanted when we defined our view,
 but there it is. Add a few more implicits like that to the same scope, and suddenly you might as well be working in a language without types:
  the compiler stops being useful.</p>
 
@@ -255,7 +255,7 @@ scala&gt; Some(&quot;gazebo&quot;) + 3
  found   : Int(3)
  required: String
 </code></pre></div>
-<p>If this isn&rsquo;t crazy enough for you, check out this <a href="http://scalapuzzlers.com/#pzzlr-040">Scala puzzler</a>.</p>
+<p>If this isn&#39;t crazy enough for you, check out this <a href="http://scalapuzzlers.com/#pzzlr-040">Scala puzzler</a>.</p>
 
 <p>This has annoyed so many people so much that there are plans to remove it in
 a future version of Scala. If the language authors create troublesome views, the rest of us should take warning.</p>

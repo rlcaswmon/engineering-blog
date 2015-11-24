@@ -120,7 +120,7 @@
 
 				<p><a href="http://www.gnu.org/software/bash/">BASH</a> may be looked down upon by
 all the programming language hipsters out there, but when you are
-doing system-level tasks it can be quite convenient: it&rsquo;s on every
+doing system-level tasks it can be quite convenient: it&#39;s on every
 system, it has no dependencies to install, and it can be a powerful
 language when used properly.</p>
 
@@ -138,7 +138,7 @@ run on every container, e.g., a log forwarder, you can simply put the
 <a href="http://www.freedesktop.org/wiki/Software/systemd/">systemd</a> unit
 information in the
 <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">instance User Data</a>
-of the Auto Scaling group&rsquo;s Launch Configuration in
+of the Auto Scaling group&#39;s Launch Configuration in
 <a href="https://coreos.com/docs/cluster-management/setup/cloudinit-cloud-config/">cloud-config</a>
 format.</p>
 
@@ -193,12 +193,12 @@ this:</p>
 <p>After setting the value of the variable <code>services_file</code> to the name of
 the services file (in the actual script this is done dynamically), the
 execution enters a <code>while</code> loop.  Each time through the <code>while</code> loop,
-it <code>read</code>&rsquo;s a line from STDIN and puts what is read into the variable
-<code>service</code>.  But we don&rsquo;t want the values read from <code>STDIN</code>, we want
+it <code>read</code>&#39;s a line from STDIN and puts what is read into the variable
+<code>service</code>.  But we don&#39;t want the values read from <code>STDIN</code>, we want
 them read from the file, so we redirect <code>STDIN</code> to come from
-<code>$services_file</code>, that&rsquo;s the <code>&lt; &quot;$services_file&quot;</code> on the last line.</p>
+<code>$services_file</code>, that&#39;s the <code>&lt; &quot;$services_file&quot;</code> on the last line.</p>
 
-<p>Unfortunately, this doesn&rsquo;t work.  When we run the script on a file
+<p>Unfortunately, this doesn&#39;t work.  When we run the script on a file
 with the contents show above, all we get is:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">launching service: kibana
 successfully launched service: kibana
@@ -207,7 +207,7 @@ successfully launched service: kibana
 Why is the loop terminating early and/or what happens to the second
 and third line of the file?</p>
 
-<p>To try to figure this out, let&rsquo;s simplify the script.  Let&rsquo;s just echo
+<p>To try to figure this out, let&#39;s simplify the script.  Let&#39;s just echo
 the each line as we read it:</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">services_file</span><span class="o">=</span><span class="s2">&quot;vpc-default.services&quot;</span>

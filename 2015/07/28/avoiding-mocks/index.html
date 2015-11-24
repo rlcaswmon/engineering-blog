@@ -126,12 +126,12 @@
 </style>
 
 <p>For unit testing in Java, mocking frameworks replace classes necessary for the code under 
-test, but not under test themselves. These mock frameworks don&rsquo;t transfer easily to Scala. That&rsquo;s OK: the functional side of Scala can make mocking unnecessary. As someone told me the other day at 
-<a href="http://polyconf.com">PolyConf</a>: mocks are the sound of your code crying out, &ldquo;please structure me differently!&rdquo;</p>
+test, but not under test themselves. These mock frameworks don&#39;t transfer easily to Scala. That&#39;s OK: the functional side of Scala can make mocking unnecessary. As someone told me the other day at 
+<a href="http://polyconf.com">PolyConf</a>: mocks are the sound of your code crying out, &quot;please structure me differently!&quot;</p>
 
-<p>Don&rsquo;t use mocks? Structure code differently? Easier said than done. What follows is a practical example of removing the need for a mock object, and at the same time separating concerns of interface and business logic.</p>
+<p>Don&#39;t use mocks? Structure code differently? Easier said than done. What follows is a practical example of removing the need for a mock object, and at the same time separating concerns of interface and business logic.</p>
 
-<p>Say there&rsquo;s an IdentityService that returns a username based on an access token. Internally, it calls out to AccessTokenService, retrieving
+<p>Say there&#39;s an IdentityService that returns a username based on an access token. Internally, it calls out to AccessTokenService, retrieving
 information about the access token. Then it interprets the result: success provides an identity; anything else means proceed 
 anonymously (return no identity). The code looks like:</p>
 
@@ -149,17 +149,17 @@ class IdentityClient(<span class="jsonClient">jsonClient: JsonClient</span>)  {
   }
 }</code></pre></div>
 
-<p>The tests want to say, &ldquo;If the inner call returns success, provide the returned identity; if it fails, return none.&rdquo; To unit-test that, we need to mock the <span class="jsonClient">JsonClient</span>, and its getWithoutSession method, and check the arguments&hellip; ugh, mocking.</p>
+<p>The tests want to say, &quot;If the inner call returns success, provide the returned identity; if it fails, return none.&quot; To unit-test that, we need to mock the <span class="jsonClient">JsonClient</span>, and its getWithoutSession method, and check the arguments... ugh, mocking.</p>
 
 <p>The secret here is to recognize that part of the method under test is about the <span class="interface">interface</span>, and part of it is <span class="logic">business logic</span>.</p>
 
-<p>The <span class="interface">interface</span> is only testable in integration tests. That&rsquo;s where we check our assumptions about the path structure, the input and the output of the other service. 
+<p>The <span class="interface">interface</span> is only testable in integration tests. That&#39;s where we check our assumptions about the path structure, the input and the output of the other service. 
 The <span class="logic">business logic</span> part of this is unit-testable once we separate the two.</p>
 
 <h1>Ports and Adapters</h1>
 
 <p>Instead of passing in a general <span class="jsonClient">JsonClient</span>,
- let&rsquo;s pass in <span class="functionParam">a function</span> that contains all the interface code. That function needs an access token, and it returns a future response.</p>
+ let&#39;s pass in <span class="functionParam">a function</span> that contains all the interface code. That function needs an access token, and it returns a future response.</p>
 
 <div class="highlight"><pre><code class="language-scala" data-lang="scala">
 class IdentityClient(<span class="port">howToCheck: String => Future[JsonResponse]</span>) {
@@ -199,20 +199,20 @@ it("returns an Identity when we have it") {
 </code></pre></div>
 
 <p>This test constructs the expected response and then provides <span class="functionParam">a function</span> that returns that, no matter what. 
-It isn&rsquo;t checking the arguments, although it could. We can pass a function that does whatever we want, for the purposes of our test.
- There&rsquo;s no <span class="jsonClient">JsonClient</span> object to mock. (Technically, <span class="functionParam">the function we passed</span> is a fake, which is different from a mock. It works here.)</p>
+It isn&#39;t checking the arguments, although it could. We can pass a function that does whatever we want, for the purposes of our test.
+ There&#39;s no <span class="jsonClient">JsonClient</span> object to mock. (Technically, <span class="functionParam">the function we passed</span> is a fake, which is different from a mock. It works here.)</p>
 
-<p>This is a minimal example, and the test isn&rsquo;t perfect. Yet, it shows how passing a &ldquo;<span class="functionParam">how</span>&rdquo; instead of passing <span class="jsonClient">an object</span> can make testing easier in Scala. Check the sample code <a href="https://github.com/MonsantoCo/engineering-blog/blob/testing-without-mocking-example-1/examples/testing-without-mocking/src/test/scala/com/monsanto/engineering_blog/testing_without_mocking/IdentityClientTest.scala">before</a> 
+<p>This is a minimal example, and the test isn&#39;t perfect. Yet, it shows how passing a &quot;<span class="functionParam">how</span>&quot; instead of passing <span class="jsonClient">an object</span> can make testing easier in Scala. Check the sample code <a href="https://github.com/MonsantoCo/engineering-blog/blob/testing-without-mocking-example-1/examples/testing-without-mocking/src/test/scala/com/monsanto/engineering_blog/testing_without_mocking/IdentityClientTest.scala">before</a> 
 and <a href="https://github.com/MonsantoCo/engineering-blog/blob/testing-without-mocking-example-2/examples/testing-without-mocking/src/test/scala/com/monsanto/engineering_blog/testing_without_mocking/IdentityClientTest.scala">after</a> to see the difference.</p>
 
-<p>This example illustrates a ports-and-adapters architecture. By removing the interface code, we created a <span class="port">port</span> &ndash; like a hole, like a Java interface. Then the RealJsonClient contains an <span class="functionParam">adapter</span>:
+<p>This example illustrates a ports-and-adapters architecture. By removing the interface code, we created a <span class="port">port</span> -- like a hole, like a Java interface. Then the RealJsonClient contains an <span class="functionParam">adapter</span>:
  a plug for the hole that hooks up to a real-life system. The function passed in the test is an <span class="functionParam">adapter</span> that fits the same hole.</p>
 
 <h1>Or: Flow of Data</h1>
 
 <p>The ports-and-adapters style lets us drop in different implementations for I/O that happens in the middle of our code. If we can avoid I/O in the middle of the code, even better.</p>
 
-<p>There&rsquo;s a cleaner way of restructuring this same code, because it&rsquo;s possible to view it as: gather data, then make decisions, then output.</p>
+<p>There&#39;s a cleaner way of restructuring this same code, because it&#39;s possible to view it as: gather data, then make decisions, then output.</p>
 
 <p><img src="/img/flow-of-data.png" alt="input, transformation, output"></p>
 
@@ -244,7 +244,7 @@ it("returns an Identity when we have it") {
 </code></pre></div>
 
 <p>In the real world, we use the same RealAccessTokenService to gather the input before calling 
-our data-in, data-out function. Instead of passing &ldquo;how to gather input&rdquo; we&rsquo;re passing <span class="pass">the input</span> as data. This is the simplest structure. Sample code <a href="https://github.com/MonsantoCo/engineering-blog/blob/testing-without-mocking-example-3/examples/testing-without-mocking/src/test/scala/com/monsanto/engineering_blog/testing_without_mocking/IdentityClientTest.scala">here</a>.</p>
+our data-in, data-out function. Instead of passing &quot;how to gather input&quot; we&#39;re passing <span class="pass">the input</span> as data. This is the simplest structure. Sample code <a href="https://github.com/MonsantoCo/engineering-blog/blob/testing-without-mocking-example-3/examples/testing-without-mocking/src/test/scala/com/monsanto/engineering_blog/testing_without_mocking/IdentityClientTest.scala">here</a>.</p>
 
 <p>Whenever you see mocking in Scala, look for an opportunity to separate <span class="logic">decision-making code</span> from <span class="interface">interface code</span>. Consider these styles instead.</p>
 

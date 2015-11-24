@@ -118,11 +118,11 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-body">
 
-				<p>In the second installation of our open source <a href="http://engineering.monsanto.com/2015/07/22/building-an-open-source-cloud-foundry-toolbox/">Cloud Foundry (CF) toolbox series</a> we would like to introduce <a href="https://github.com/MonsantoCo/cf-metrics">CF-Metrics</a>, a comprehensive solution for Cloud Foundry monitoring and alerting based solely on open source projects.  In a world of unreliable cloud infrastructure and distributed micro service architectures, monitoring and alerting are as critical now as they&rsquo;ve ever been.  Even when you learn to expect failure (or better yet <a href="https://github.com/strepsirrhini-army/chaos-lemur">embrace it</a>) and build self healing platforms like Cloud Foundry, you still need monitoring and alerting to analyze why there was a failure and how to make it not happen again in the future.</p>
+				<p>In the second installation of our open source <a href="http://engineering.monsanto.com/2015/07/22/building-an-open-source-cloud-foundry-toolbox/">Cloud Foundry (CF) toolbox series</a> we would like to introduce <a href="https://github.com/MonsantoCo/cf-metrics">CF-Metrics</a>, a comprehensive solution for Cloud Foundry monitoring and alerting based solely on open source projects.  In a world of unreliable cloud infrastructure and distributed micro service architectures, monitoring and alerting are as critical now as they&#39;ve ever been.  Even when you learn to expect failure (or better yet <a href="https://github.com/strepsirrhini-army/chaos-lemur">embrace it</a>) and build self healing platforms like Cloud Foundry, you still need monitoring and alerting to analyze why there was a failure and how to make it not happen again in the future.</p>
 
 <h2>Lowering the Cost of Entry</h2>
 
-<p>When we first started with Cloud Foundry at Monsanto, monitoring was one of the key areas the team needed to tackle to feel comfortable running the platform. Maybe it&rsquo;s a placebo effect, but knowing I have the ability to graph any metric at will keeps me from loosing sleep at night.  And although this topic remains highly requested in meetups and mailing lists, publicized documentation and more importantly downloadable working implementations are still relatively sparse.</p>
+<p>When we first started with Cloud Foundry at Monsanto, monitoring was one of the key areas the team needed to tackle to feel comfortable running the platform. Maybe it&#39;s a placebo effect, but knowing I have the ability to graph any metric at will keeps me from loosing sleep at night.  And although this topic remains highly requested in meetups and mailing lists, publicized documentation and more importantly downloadable working implementations are still relatively sparse.</p>
 
 <p>By releasing CF-Metrics, we hope to provide a solution which will help new community users get off the ground quicker by:</p>
 
@@ -133,7 +133,7 @@
 
 <h2>The Setup</h2>
 
-<p>CF-Metrics is a combination of open source tools (Heka, InfluxDB, and Grafana) running as a docker compose application.  Packaging the tools via docker makes it compact and highly portable to a variety of hosting solutions.  We purposefully elected not to package the application as a BOSH release since it&rsquo;s best practice not to run your monitoring solution on the platform that it is monitoring.
+<p>CF-Metrics is a combination of open source tools (Heka, InfluxDB, and Grafana) running as a docker compose application.  Packaging the tools via docker makes it compact and highly portable to a variety of hosting solutions.  We purposefully elected not to package the application as a BOSH release since it&#39;s best practice not to run your monitoring solution on the platform that it is monitoring.
 <img src=/img/cf-metrics-arch.png  width=700 height=400/></p>
 
 <h2>Gathering the metrics</h2>
@@ -144,13 +144,13 @@
 
 <h2>Processing</h2>
 
-<p>To process the metric and event stream, we chose Mozilla&rsquo;s open source stream processing system <a href="http://hekad.readthedocs.org/en/latest/index.html">Heka</a>.  Heka is lightweight and its lua sandbox functionality gives it the ability to perform a large variety of functions.  Once the metric and event data is sent to Heka, it is decoded from graphite to Heka format and then streamed through a variety of filters to accomplish our specific tasks.  </p>
+<p>To process the metric and event stream, we chose Mozilla&#39;s open source stream processing system <a href="http://hekad.readthedocs.org/en/latest/index.html">Heka</a>.  Heka is lightweight and its lua sandbox functionality gives it the ability to perform a large variety of functions.  Once the metric and event data is sent to Heka, it is decoded from graphite to Heka format and then streamed through a variety of filters to accomplish our specific tasks.  </p>
 
 <h2>Alerting</h2>
 
 <p>Alerting through Heka is done through configuration of sandbox filters.  There are filters which trigger on specific message types flowing through the system and perform logic to determine if an alert is required.  It then uses the built-in alert module to inject an alert message into the Heka stream and set a timer to throttle additional alerts of that type for the specified time.  Alert messages are then picked up by a separate sandbox and sent to a Heka output such as an email address or a slack channel.</p>
 
-<p>We&rsquo;ve included some alert filters we find useful such as swap utilization and DEA memory ratios, but creating your own is as easy as creating a new Heka filter with your custom logic.  Heka also has built in anomaly detection modules so if you&rsquo;re adventurous you can go beyond traditional threshold based alerting.</p>
+<p>We&#39;ve included some alert filters we find useful such as swap utilization and DEA memory ratios, but creating your own is as easy as creating a new Heka filter with your custom logic.  Heka also has built in anomaly detection modules so if you&#39;re adventurous you can go beyond traditional threshold based alerting.</p>
 
 <h2>Storing and Trending</h2>
 
@@ -159,7 +159,7 @@
 
 <h2>Ready, Set, Go!</h2>
 
-<p>For a deeper look at CF-Metrics head over to the <a href="https://github.com/MonsantoCo/cf-metrics">github page</a> to try it out for yourself.  If you make a feature enhancement or useful dashboard we&rsquo;d love a PR to include it in the project.  Or if you have your own solution for Cloud Foundry monitoring and alerting, hopefully we&rsquo;ve encouraged you to pay it forward and share it with the community.</p>
+<p>For a deeper look at CF-Metrics head over to the <a href="https://github.com/MonsantoCo/cf-metrics">github page</a> to try it out for yourself.  If you make a feature enhancement or useful dashboard we&#39;d love a PR to include it in the project.  Or if you have your own solution for Cloud Foundry monitoring and alerting, hopefully we&#39;ve encouraged you to pay it forward and share it with the community.</p>
 
 
                 

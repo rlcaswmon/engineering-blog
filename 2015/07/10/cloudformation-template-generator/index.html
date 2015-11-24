@@ -122,11 +122,11 @@
 
 				<h2>TL;DR</h2>
 
-<p>CloudFormation gives you a declarative specification to stand up complex AWS topologies. You can simplify creation of templates with potentially thousands of lines using our open source, type-safe <a href="https://github.com/MonsantoCo/cloudformation-template-generator">library </a> to generate templates with the full power of Scala. We use a variety of strategies to simplify creation of resources as well as encode consistency checks in Scala&rsquo;s type system.</p>
+<p>CloudFormation gives you a declarative specification to stand up complex AWS topologies. You can simplify creation of templates with potentially thousands of lines using our open source, type-safe <a href="https://github.com/MonsantoCo/cloudformation-template-generator">library </a> to generate templates with the full power of Scala. We use a variety of strategies to simplify creation of resources as well as encode consistency checks in Scala&#39;s type system.</p>
 
 <h2>Hand-crafted Template Woes</h2>
 
-<p>At Monsanto we have a reasonably complex infrastructure topology for managing Microservice applications in AWS. You may have seen our post open sourcing our <a href="http://engineering.monsanto.com/2015/07/08/stax/">Stax</a> tool for simplifying interactions with AWS and managing our VPCs. Or maybe you&rsquo;re jumping into the new AWS <a href="http://aws.amazon.com/servicecatalog/">Service Catalog</a>.</p>
+<p>At Monsanto we have a reasonably complex infrastructure topology for managing Microservice applications in AWS. You may have seen our post open sourcing our <a href="http://engineering.monsanto.com/2015/07/08/stax/">Stax</a> tool for simplifying interactions with AWS and managing our VPCs. Or maybe you&#39;re jumping into the new AWS <a href="http://aws.amazon.com/servicecatalog/">Service Catalog</a>.</p>
 
 <p>Stax, AWS Service Catalog, and underlying <a href="http://aws.amazon.com/cloudformation/">CloudFormation</a> all work on a BYOT model - bring your own template. Our problem was, as our topology become more complex and many members of our team spent more and more time making changes, our template ballooned to ~5,000 lines of JSON. Worse, CloudFormation entries are not self-contained but also contain internal references:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;MyAutoScaleGroup&quot;</span><span class="err">:</span> <span class="p">{</span>
@@ -149,18 +149,18 @@
 
 <ul>
 <li>Support generation of repetitive elements</li>
-<li>Constrain &ldquo;References&rdquo; to entities that actually exist</li>
+<li>Constrain &quot;References&quot; to entities that actually exist</li>
 <li>Check the types of Maps and Functions like Fn::If</li>
-<li>Lift all of the stringly-typed parameters like AMI&rsquo;s or CIDR blocks into strong types</li>
+<li>Lift all of the stringly-typed parameters like AMI&#39;s or CIDR blocks into strong types</li>
 <li>Explicitly model optional fields</li>
 <li>Disallow the many mutually exclusive parameter settings described in the CloudFormation documentation</li>
 </ul>
 
-<p>We also wanted to create a &ldquo;layered&rdquo; set of abstractions. At the bottom most layer, we have objects that map directly to CloudFormation JSON objects and we are continuing to work on higher-order Builder functions to create groups of meaningful functionality, such as autoscaling groups with reasonable launch configs.</p>
+<p>We also wanted to create a &quot;layered&quot; set of abstractions. At the bottom most layer, we have objects that map directly to CloudFormation JSON objects and we are continuing to work on higher-order Builder functions to create groups of meaningful functionality, such as autoscaling groups with reasonable launch configs.</p>
 
-<p>In early versions and after aggressive refactoring we also noticed that the majority of our remaining template code concerned Security Groups and In/Egress Rules so we also created a DSL for ingress rules and a construct for implicit security groups we call &ldquo;SecurityGroupRoutables.&rdquo;</p>
+<p>In early versions and after aggressive refactoring we also noticed that the majority of our remaining template code concerned Security Groups and In/Egress Rules so we also created a DSL for ingress rules and a construct for implicit security groups we call &quot;SecurityGroupRoutables.&quot;</p>
 
-<p>Why didn&rsquo;t we use <a href="https://www.terraform.io">Terraform</a> or roll-our-own API calls? While these might be great solutions for some, Terraform did not (and still does not yet) support all of the resources types we needed to use. We also wanted the full power of a Turing-complete language like Scala to abstract complex elements. As fans of &ldquo;immutable infrastructure&rdquo; we also liked the idea of using CloudFormation where we have an authoritative, declarative specification of our entire environment without drift.</p>
+<p>Why didn&#39;t we use <a href="https://www.terraform.io">Terraform</a> or roll-our-own API calls? While these might be great solutions for some, Terraform did not (and still does not yet) support all of the resources types we needed to use. We also wanted the full power of a Turing-complete language like Scala to abstract complex elements. As fans of &quot;immutable infrastructure&quot; we also liked the idea of using CloudFormation where we have an authoritative, declarative specification of our entire environment without drift.</p>
 
 <h2>Low-Level Bits</h2>
 
@@ -182,9 +182,9 @@
 </code></pre></div>
 <p>The Resource companion objects always define an implicit <a href="https://github.com/spray/spray-json">Spray-JSON</a> type class instance.</p>
 
-<p>OK so it&rsquo;s not quite a perfect mapping to the JSON. In CloudFormation, top level entities are held in a map with a user specified name as a key. In CFTG each Resource or Parameter has a &ldquo;name&rdquo; property that holds this label <em>inside</em> each object so that it can be be more easily referenced from others.</p>
+<p>OK so it&#39;s not quite a perfect mapping to the JSON. In CloudFormation, top level entities are held in a map with a user specified name as a key. In CFTG each Resource or Parameter has a &quot;name&quot; property that holds this label <em>inside</em> each object so that it can be be more easily referenced from others.</p>
 
-<p>But we do try to map as closely to CloudFormation as possible. We have non-idiomatic Scala capital field names in Resources to match that CloudFormation standard. We use Scala&rsquo;s back-tick labels to preserve the CloudFormation <code>AWS::EC2::Subnet</code> style names for better search-ability and familiarity with raw CloudFormation. We also support Conditions on resource which result in conditional creation, including a &ldquo;when&rdquo; convenience function that you can also use through:</p>
+<p>But we do try to map as closely to CloudFormation as possible. We have non-idiomatic Scala capital field names in Resources to match that CloudFormation standard. We use Scala&#39;s back-tick labels to preserve the CloudFormation <code>AWS::EC2::Subnet</code> style names for better search-ability and familiarity with raw CloudFormation. We also support Conditions on resource which result in conditional creation, including a &quot;when&quot; convenience function that you can also use through:</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.monsanto.arch.cloudformation.model.simple.Builders._</span>
 
 <span class="k">object</span> <span class="nc">Example</span><span class="o">{</span>
@@ -196,7 +196,7 @@
 </code></pre></div>
 <h2>More Types</h2>
 
-<p>This <code>AWS::EC2::Subnet</code> Resource also highlights a few other central concepts in CFTG: our reference types, our common usage of wrapper types for things like CIDR Blocks and Amazon&rsquo;s Tags, and the mysterious &ldquo;Token&rdquo; type.</p>
+<p>This <code>AWS::EC2::Subnet</code> Resource also highlights a few other central concepts in CFTG: our reference types, our common usage of wrapper types for things like CIDR Blocks and Amazon&#39;s Tags, and the mysterious &quot;Token&quot; type.</p>
 
 <p>In CloudFormation, you can reference Resources, Parameters, Mappings and Conditions by name. In CFTG we force all of these to be by object reference using <code>ResourceRef</code>, <code>ConditionRef</code>, <code>ParameterRef</code>, and <code>MappingRef</code>. These references contain a type parameter of what they point to. For instance, to define an <code>AWS::EC2::Subnet</code> you have to pass in a <code>VpcId: Token[ResourceRef[AWS::EC2::VPC]]</code>. In stock CloudFormation this parameter is just a string, as are CIDR blocks, AMI IDs, etc., but in CFTG we have strict types for almost everything.</p>
 
@@ -229,11 +229,11 @@
     <span class="nc">IPMask</span><span class="o">(</span><span class="mi">16</span><span class="o">)</span>
 <span class="o">)</span>
 </code></pre></div>
-<p>You&rsquo;ll note this is one of the few places we &ldquo;cheat&rdquo; with run-time (but remember this is template <em>generation</em> runtime, not template instantiation runtime) with some <a href="https://en.wikipedia.org/wiki/Design_by_contract">Design-by-contract</a> style checks for valid numerical ranges of IP segments.</p>
+<p>You&#39;ll note this is one of the few places we &quot;cheat&quot; with run-time (but remember this is template <em>generation</em> runtime, not template instantiation runtime) with some <a href="https://en.wikipedia.org/wiki/Design_by_contract">Design-by-contract</a> style checks for valid numerical ranges of IP segments.</p>
 
 <h2>Typed Functions</h2>
 
-<p>OK, so what is that funny <code>Token[T]</code> thing? It might be a terrible name (<a href="https://github.com/MonsantoCo/cloudformation-template-generator/pulls">Pull Requests welcome</a>), but it&rsquo;s purpose is to abstract over &ldquo;a literal <code>T</code>&rdquo; or &ldquo;an Amazon function that returns a <code>T</code>.&rdquo; In CFTG, we have versions of the built-in Amazon functions like:</p>
+<p>OK, so what is that funny <code>Token[T]</code> thing? It might be a terrible name (<a href="https://github.com/MonsantoCo/cloudformation-template-generator/pulls">Pull Requests welcome</a>), but it&#39;s purpose is to abstract over &quot;a literal <code>T</code>&quot; or &quot;an Amazon function that returns a <code>T</code>.&quot; In CFTG, we have versions of the built-in Amazon functions like:</p>
 
 <ul>
 <li><code>Fn::GetAtt</code></li>
@@ -258,7 +258,7 @@
 <span class="o">...</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Here <code>R</code> is the logical return type of the <code>Fn::If</code> in CFTG (logical because this is <em>our</em> notion of a return type, not stock CloudFormation&rsquo;s). For instance I could have a: </p>
+<p>Here <code>R</code> is the logical return type of the <code>Fn::If</code> in CFTG (logical because this is <em>our</em> notion of a return type, not stock CloudFormation&#39;s). For instance I could have a: </p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">gatewayServiceELBSecGroup</span> <span class="k">=</span> <span class="c1">// Security group with 80 ingress rules</span>
 <span class="k">val</span> <span class="n">gatewayServiceELBSSLSecGroup</span> <span class="k">=</span> <span class="c1">// Security group with 443 ingress rules</span>
 
@@ -269,7 +269,7 @@
     <span class="n">gatewayServiceELBSSLSecGroup</span>
   <span class="o">)</span>
 </code></pre></div>
-<p>I&rsquo;ve shown the explicit return type parameter of this <code>Fn::If</code> which here is a <code>Token[ResourceRef[`AWS::EC2::SecurityGroup`]]</code>, not just a string! In this way I could pass this value confidently to an <code>AWS::EC2::Instance</code> constructor that requires a Security Group.</p>
+<p>I&#39;ve shown the explicit return type parameter of this <code>Fn::If</code> which here is a <code>Token[ResourceRef[`AWS::EC2::SecurityGroup`]]</code>, not just a string! In this way I could pass this value confidently to an <code>AWS::EC2::Instance</code> constructor that requires a Security Group.</p>
 
 <p>Back to Tokens, while you can explicitly wrap a Resource (and sometimes other values) you can always just pass a Resource or a Function return value and it will be promoted into a Token value using the implicit conversions:</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">sealed</span> <span class="k">trait</span> <span class="nc">Token</span><span class="o">[</span><span class="kt">R</span><span class="o">]</span>
@@ -304,13 +304,13 @@
 
 <blockquote>
 <p>AWS::Route53::RecordSet<br>
-&hellip;<br>
+...<br>
 AliasTarget<br>
 <em>Alias resource record sets only:</em> Information about the domain to which you are redirecting traffic.<br>
-&hellip;<br>
+...<br>
 TTL<br>
 The resource record cache time to live (TTL), in seconds. <em>If you specify this property, do not specify the AliasTarget property.</em> For alias target records, the alias uses a TTL value from the target.<br>
-&hellip;</p>
+...</p>
 </blockquote>
 
 <p>If this is relatively simple, we can (did) just create a class with a private constructor and a set of defined factory methods, like this real example:</p>
@@ -333,17 +333,17 @@ The resource record cache time to live (TTL), in seconds. <em>If you specify thi
   <span class="k">def</span> <span class="n">aliasRecord</span><span class="o">(...)</span> <span class="k">=</span> <span class="k">new</span> <span class="n">`AWS::Route53::RecordSet`</span><span class="o">(...)</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>So we try to do this in a variety of places in CFTG to ensure we are creating AWS resources that are &ldquo;correct by construction.&rdquo;</p>
+<p>So we try to do this in a variety of places in CFTG to ensure we are creating AWS resources that are &quot;correct by construction.&quot;</p>
 
-<p>Elsewhere, we use a more sophisticated pattern, that is obvious in Scala but we haven&rsquo;t seen documented anywhere, that we call the &ldquo;Valid Combo Pattern.&rdquo; For this AWS resource:</p>
+<p>Elsewhere, we use a more sophisticated pattern, that is obvious in Scala but we haven&#39;t seen documented anywhere, that we call the &quot;Valid Combo Pattern.&quot; For this AWS resource:</p>
 
 <blockquote>
 <p>AWS::EC2::Route</p>
 
-<p>Creates a new route in a route table within a VPC. The route&rsquo;s target can be either a gateway attached to the VPC or a NAT instance in the VPC.<br>
-&hellip;<br>
+<p>Creates a new route in a route table within a VPC. The route&#39;s target can be either a gateway attached to the VPC or a NAT instance in the VPC.<br>
+...<br>
 GatewayId<br>
-&hellip;<br>
+...<br>
 Required: Conditional. <strong>You must specify only one of the following properties: GatewayId, InstanceId, NetworkInterfaceId, or VpcPeeringConnectionId.</strong></p>
 </blockquote>
 
@@ -380,7 +380,7 @@ Required: Conditional. <strong>You must specify only one of the following proper
 </code></pre></div>
 <p>You can see the implicit parameter ev1 (evidence 1) witnesses that G,I are part of one of the valid combinations that we encoded above, namely that only one of the options can be a Some.</p>
 
-<p>Now we could implement the other <code>ValidRouteCombo</code>&rsquo;s for NetworkInterfaceId and VpcPeeringConnectionId each with one line of new code instead of 9 lines each of another constructor for each. Further, the Valid Combo Pattern encodes much more explicitly in the type system what is valid than the private constructor + factories approach.</p>
+<p>Now we could implement the other <code>ValidRouteCombo</code>&#39;s for NetworkInterfaceId and VpcPeeringConnectionId each with one line of new code instead of 9 lines each of another constructor for each. Further, the Valid Combo Pattern encodes much more explicitly in the type system what is valid than the private constructor + factories approach.</p>
 
 <h2>YAML Support</h2>
 
@@ -413,7 +413,7 @@ Required: Conditional. <strong>You must specify only one of the following proper
 
 <h2>Higher-Order Builders</h2>
 
-<p>For simpler topologies, we have a set of convenience methods to more easily create common entities. For instance, many types of Resources, like <code>AWS::EC2::Instance</code>&rsquo;s require a constructor parameter for VPC and Subnet in which that instance will be contained. Our methods allow you to express a template in a way that visually resembles a diagram of your architecture. Logical/network containment is express in nested code blocks:</p>
+<p>For simpler topologies, we have a set of convenience methods to more easily create common entities. For instance, many types of Resources, like <code>AWS::EC2::Instance</code>&#39;s require a constructor parameter for VPC and Subnet in which that instance will be contained. Our methods allow you to express a template in a way that visually resembles a diagram of your architecture. Logical/network containment is express in nested code blocks:</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">withVpc</span><span class="o">(</span><span class="nc">ParameterRef</span><span class="o">(</span><span class="n">vpcCidrParameter</span><span class="o">)){</span> <span class="k">implicit</span> <span class="n">vpc</span> <span class="k">=&gt;</span>
     <span class="n">withAZ</span><span class="o">(</span><span class="nc">ParameterRef</span><span class="o">(</span><span class="n">availabilityZone1Parameter</span><span class="o">)){</span> <span class="k">implicit</span> <span class="n">az1</span> <span class="k">=&gt;</span>
       <span class="n">withSubnet</span><span class="o">(</span><span class="s">&quot;Public&quot;</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="nc">ParameterRef</span><span class="o">(</span><span class="n">publicSubnet1CidrParameter</span><span class="o">)){</span> <span class="k">implicit</span> <span class="n">pubSubnet1</span> <span class="k">=&gt;</span>
@@ -480,11 +480,11 @@ Required: Conditional. <strong>You must specify only one of the following proper
 
 <h2>SecurityGroupRoutables</h2>
 
-<p>Above you might have noticed this sneaky <code>SecurityGroupRoutable</code> type. After using all of the techniques above, you&rsquo;ll still be left with lots of code to make security groups and to associate various ones to various resources. We&rsquo;ve begun to create a new abstraction, <code>SecurityGroupRoutable</code>, currently supporting <code>AWS::EC2::Instance</code>&rsquo;s, <code>AWS::ElasticLoadBalancing::LoadBalancer</code>&rsquo;s and <code>AWS::AutoScaling::LaunchConfiguration</code>&rsquo;s / <code>AWS::AutoScaling::AutoScalingGroup</code>&rsquo;s. Instead of manually defining security groups for logically similar instances, we discovered it was less work overall to specify ingress rules point to point between all necessary Resource instances (or to define them in a function).</p>
+<p>Above you might have noticed this sneaky <code>SecurityGroupRoutable</code> type. After using all of the techniques above, you&#39;ll still be left with lots of code to make security groups and to associate various ones to various resources. We&#39;ve begun to create a new abstraction, <code>SecurityGroupRoutable</code>, currently supporting <code>AWS::EC2::Instance</code>&#39;s, <code>AWS::ElasticLoadBalancing::LoadBalancer</code>&#39;s and <code>AWS::AutoScaling::LaunchConfiguration</code>&#39;s / <code>AWS::AutoScaling::AutoScalingGroup</code>&#39;s. Instead of manually defining security groups for logically similar instances, we discovered it was less work overall to specify ingress rules point to point between all necessary Resource instances (or to define them in a function).</p>
 
 <p>So a <code>SecurityGroupRoutable[R &lt;: Resource[R]]</code> is a wrapper around a Resource that itself needs or can be associated with a security group, as well as an auto-generated security group specific for that <code>Resource</code> that is injected into the resource. In other words, every <code>Resource</code> that is wrapped in an SGR gets its own security group associated only to itself. Then instead of defining ingress/egress rules in the definition of that security group, we use the fact that CloudFormation also permits the definition of <code>AWS::EC2::SecurityGroupEgress</code> and <code>AWS::EC2::SecurityGroupIngress</code> rules as stand-alone resources that point to security groups.</p>
 
-<p>Several of the higher-level methods for creating <code>Resource</code>&rsquo;s above now return SGRs instead of bare <code>Resource</code>&rsquo;s. Note that SGRs have a <code>.template</code> method that returns a template containing both the <code>Resource</code> and its <code>SecurityGroup</code>.</p>
+<p>Several of the higher-level methods for creating <code>Resource</code>&#39;s above now return SGRs instead of bare <code>Resource</code>&#39;s. Note that SGRs have a <code>.template</code> method that returns a template containing both the <code>Resource</code> and its <code>SecurityGroup</code>.</p>
 
 <h2>Ingress Rule DSL</h2>
 
@@ -506,11 +506,11 @@ Required: Conditional. <strong>You must specify only one of the following proper
     <span class="n">securityGroupA</span> <span class="o">-&gt;-</span> <span class="mi">22</span> <span class="o">-&lt;-</span> <span class="n">securityGroupB</span>
     <span class="n">securityGroupA</span> <span class="o">-&lt;-</span> <span class="mi">22</span> <span class="o">-&gt;-</span> <span class="n">securityGroupB</span>
 </code></pre></div>
-<p>So yes, we do have this one symbolic operator in CFTG, and we read it as &ldquo;flow.&rdquo; Each expression like <code>x -&gt;- 22 / TCP -&gt;- y</code> generates a list of ingress rules, in this case it generates a single rule that allows ingress traffic on port 22 over the TCP protocol from security group <code>x</code> to security group <code>y</code>.</p>
+<p>So yes, we do have this one symbolic operator in CFTG, and we read it as &quot;flow.&quot; Each expression like <code>x -&gt;- 22 / TCP -&gt;- y</code> generates a list of ingress rules, in this case it generates a single rule that allows ingress traffic on port 22 over the TCP protocol from security group <code>x</code> to security group <code>y</code>.</p>
 
-<p>As you can see above, you can leave off <code>/ TCP</code> as it is the default. We also support other protocols such as <code>/ UDP</code> or <code>/ ICMP</code> or the wildcard <code>/ ALL</code>. We read <code>/</code> as &ldquo;over,&rdquo; as in &ldquo;22 over TCP&rdquo; like you&rsquo;d say &ldquo;JSON over HTTP.&rdquo; (OK so I guess we have two, TWO symbolic operators.) We also support port ranges, which use Scala ranges of ports like <code>(1 to 1024)</code>, as well as cherry-picked sequences of ports like <code>Seq(22, 5601)</code>. Ranges also support protocols, and sequence elements can both have protocols and themselves be nested ranges.</p>
+<p>As you can see above, you can leave off <code>/ TCP</code> as it is the default. We also support other protocols such as <code>/ UDP</code> or <code>/ ICMP</code> or the wildcard <code>/ ALL</code>. We read <code>/</code> as &quot;over,&quot; as in &quot;22 over TCP&quot; like you&#39;d say &quot;JSON over HTTP.&quot; (OK so I guess we have two, TWO symbolic operators.) We also support port ranges, which use Scala ranges of ports like <code>(1 to 1024)</code>, as well as cherry-picked sequences of ports like <code>Seq(22, 5601)</code>. Ranges also support protocols, and sequence elements can both have protocols and themselves be nested ranges.</p>
 
-<p>You can flow in either direction, because who wants to have to remember which ways the arrows are &ldquo;supposed to go&rdquo;, meaning you can write the same ingress rule as either:</p>
+<p>You can flow in either direction, because who wants to have to remember which ways the arrows are &quot;supposed to go&quot;, meaning you can write the same ingress rule as either:</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">a</span> <span class="o">-&gt;-</span> <span class="mi">22</span> <span class="o">-&gt;-</span> <span class="n">b</span>
 <span class="c1">//or</span>
 <span class="n">b</span> <span class="o">-&lt;-</span> <span class="mi">22</span> <span class="o">-&lt;-</span> <span class="n">a</span>
@@ -523,7 +523,7 @@ Required: Conditional. <strong>You must specify only one of the following proper
 </code></pre></div>
 <h2>Summary</h2>
 
-<p>Clearly this library is far from complete. Writing this post, it is obvious that we should replace <code>Fn::If</code>&rsquo;s first parameter (now a string Condition name) with a <code>ConditionRef</code>, it would be nice if we generated Egress rules in addition to Ingress rules from &ldquo;flows,&rdquo; etc. And if anyone has a great idea for modeling cross-cutting concerns like ASGs in a beautiful way, pull requests are always welcome!</p>
+<p>Clearly this library is far from complete. Writing this post, it is obvious that we should replace <code>Fn::If</code>&#39;s first parameter (now a string Condition name) with a <code>ConditionRef</code>, it would be nice if we generated Egress rules in addition to Ingress rules from &quot;flows,&quot; etc. And if anyone has a great idea for modeling cross-cutting concerns like ASGs in a beautiful way, pull requests are always welcome!</p>
 
 <p>We hope though that CFTG is sufficiently advanced that you can use it in your work. We certainly use it to generate our complex Microservice environment templates at Monsanto, and are delighted to share it with all of you.</p>
 
