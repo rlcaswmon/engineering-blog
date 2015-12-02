@@ -118,20 +118,20 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-body">
 
-				<p>You&#39;ve probably heard people talk about Spray by now; maybe you&#39;re
+				<p>You&rsquo;ve probably heard people talk about Spray by now; maybe you&rsquo;re
 even using it for JSON serialization.  Spray also provides a
 lightweight server package to allow you easily create REST services.
 The hardest part of getting started with any new technology is getting
-past that initial contact of setup and concepts.  I&#39;ll try to reduce
+past that initial contact of setup and concepts.  I&rsquo;ll try to reduce
 that hurdle by walking you through a simple app that hits most of the
 features you might regularly use.</p>
 
-<p>Because the spray documentation isn&#39;t great about saying what
-dependencies you need, or imports for that matter, I&#39;ll be including
-them so you don&#39;t have to guess.  Also, the final source code is at
+<p>Because the spray documentation isn&rsquo;t great about saying what
+dependencies you need, or imports for that matter, I&rsquo;ll be including
+them so you don&rsquo;t have to guess.  Also, the final source code is at
 <a href="https://github.com/MonsantoCo/simple-spray">simple-spray</a>.</p>
 
-<h2>Setting up the project&#39;s build.sbt</h2>
+<h2>Setting up the project&rsquo;s build.sbt</h2>
 
 <p>Your build.sbt are going to need the following dependencies</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">akka</span> <span class="k">=</span> <span class="s">&quot;2.3.9&quot;</span>
@@ -182,11 +182,11 @@ framework would look like this:</p>
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>As you can see, the trait contains a <em>route</em> value that get&#39;s passed
-into the runRoute method.  You don&#39;t have to do it this way, but using
+<p>As you can see, the trait contains a <em>route</em> value that get&rsquo;s passed
+into the runRoute method.  You don&rsquo;t have to do it this way, but using
 traits can be a good way of organizing your routes.</p>
 
-<p>So we have a service setup, let&#39;s actually run it and try it out.  We
+<p>So we have a service setup, let&rsquo;s actually run it and try it out.  We
 need one more object, a Main class to bind to the port.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">akka.actor.</span><span class="o">{</span><span class="nc">ActorSystem</span><span class="o">,</span> <span class="nc">Props</span><span class="o">}</span>
 <span class="k">import</span> <span class="nn">akka.io.IO</span>
@@ -203,20 +203,20 @@ need one more object, a Main class to bind to the port.</p>
     <span class="nc">IO</span><span class="o">(</span><span class="nc">Http</span><span class="o">)</span> <span class="o">!</span> <span class="nc">Http</span><span class="o">.</span><span class="nc">Bind</span><span class="o">(</span><span class="n">service</span><span class="o">,</span> <span class="n">host</span><span class="o">,</span> <span class="n">port</span> <span class="k">=</span> <span class="n">port</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Our main class set&#39;s up the Akka ActorSystem, and attaches our
+<p>Our main class set&rsquo;s up the Akka ActorSystem, and attaches our
 SampleServiceActor to it.  We then bind the service to the host and
 port (I put in code to show how to get it from Cloud Foundry).</p>
 
 <p>At this point in IntelliJ you should be able to run the Main class.
 It should just take a second to launch, then in your browser you can
-look at http://localhost:8080/ and see the message we returned.</p>
+look at <a href="http://localhost:8080/">http://localhost:8080/</a> and see the message we returned.</p>
 
-<p>So now we have the basic framework up, let&#39;s make it more interesting
-by....</p>
+<p>So now we have the basic framework up, let&rsquo;s make it more interesting
+by&hellip;.</p>
 
 <h2>Adding paths/routes</h2>
 
-<p>So currently we&#39;re just hitting the root of the service, let&#39;s add a
+<p>So currently we&rsquo;re just hitting the root of the service, let&rsquo;s add a
 subresource called <em>stuff</em>.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">route</span> <span class="k">=</span> <span class="o">{</span>
         <span class="n">get</span> <span class="o">{</span>
@@ -230,11 +230,11 @@ subresource called <em>stuff</em>.</p>
     <span class="o">}</span>
 </code></pre></div>
 <p>The <em>path</em> operation allows us to name a route, and the tilde operator
-allows you to chain things together (it&#39;s a common usage in the Spray
-libraries).  In theory http://localhost:8080/stuff should show us our
+allows you to chain things together (it&rsquo;s a common usage in the Spray
+libraries).  In theory <a href="http://localhost:8080/stuff">http://localhost:8080/stuff</a> should show us our
 new message.  But instead we still see the <em>I exist!</em> message.</p>
 
-<p>What&#39;s going on is Spray goes down the list one by one until it finds
+<p>What&rsquo;s going on is Spray goes down the list one by one until it finds
 a <strong><em>complete</em></strong>.  Since the root has a <em>get</em> on it, it resolves that
 first.  By reordering we can fix this problem</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">route</span> <span class="k">=</span> <span class="o">{</span>
@@ -249,9 +249,9 @@ first.  By reordering we can fix this problem</p>
 </code></pre></div>
 <h2>Doing a POST</h2>
 
-<p>So I&#39;m sure you&#39;ve noticed the <em>get</em> by now that signifies which verb
+<p>So I&rsquo;m sure you&rsquo;ve noticed the <em>get</em> by now that signifies which verb
 we want to use.  The other verbs (post/put/delete/etc) are also
-supported. Let&#39;s do a POST to the <em>stuff</em> resource.</p>
+supported. Let&rsquo;s do a POST to the <em>stuff</em> resource.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">route</span> <span class="k">=</span> <span class="o">{</span>
         <span class="n">get</span> <span class="o">{</span>
             <span class="n">path</span><span class="o">(</span><span class="s">&quot;stuff&quot;</span><span class="o">)</span> <span class="o">{</span>
@@ -268,10 +268,10 @@ supported. Let&#39;s do a POST to the <em>stuff</em> resource.</p>
           <span class="o">}</span>
     <span class="o">}</span>
 </code></pre></div>
-<p>Obviously we&#39;re not really getting any data (that will come in the
+<p>Obviously we&rsquo;re not really getting any data (that will come in the
 next section), but we can just do a POST and see this message.  There
-is a problem though, we&#39;ve got some repetition since we do a
-<em>path(&quot;stuff&quot;)</em> twice.</p>
+is a problem though, we&rsquo;ve got some repetition since we do a
+<em>path(&ldquo;stuff&rdquo;)</em> twice.</p>
 
 <p>It turns out Spray is very flexible about how you nest things!  So we
 can easily do some code reduction by putting the <em>path</em> first and have
@@ -290,15 +290,15 @@ it contain the <em>get</em> and <em>post</em>.</p>
           <span class="o">}</span>
     <span class="o">}</span>
 </code></pre></div>
-<p>That&#39;s better!  Note the tilde chaining the get &amp; post together.</p>
+<p>That&rsquo;s better!  Note the tilde chaining the get &amp; post together.</p>
 
 <h2>Reading and returning JSON</h2>
 
-<p>So we&#39;re ready to deal with some data, so we&#39;ll change our <em>get</em> and
+<p>So we&rsquo;re ready to deal with some data, so we&rsquo;ll change our <em>get</em> and
 <em>post</em> to use JSON objects.</p>
 
-<p>For our purposes, the object is going to be really simple. I&#39;ll also
-create the format to use <em>spray.json</em>&#39;s serialization.</p>
+<p>For our purposes, the object is going to be really simple. I&rsquo;ll also
+create the format to use <em>spray.json</em>&rsquo;s serialization.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">spray.json.DefaultJsonProtocol</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Stuff</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">data</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
@@ -307,7 +307,7 @@ create the format to use <em>spray.json</em>&#39;s serialization.</p>
     <span class="k">implicit</span> <span class="k">val</span> <span class="n">stuffFormat</span> <span class="k">=</span> <span class="n">jsonFormat2</span><span class="o">(</span><span class="nc">Stuff</span><span class="o">.</span><span class="n">apply</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Now we&#39;ll have our <em>get</em> return some fake data.  I&#39;ll list the whole trait again so there&#39;s no confusion.</p>
+<p>Now we&rsquo;ll have our <em>get</em> return some fake data.  I&rsquo;ll list the whole trait again so there&rsquo;s no confusion.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">trait</span> <span class="nc">SampleRoute</span> <span class="k">extends</span> <span class="nc">HttpService</span> <span class="o">{</span>
     <span class="k">import</span> <span class="nn">spray.httpx.SprayJsonSupport._</span>
     <span class="k">import</span> <span class="nn">Stuff._</span>
@@ -335,11 +335,11 @@ create the format to use <em>spray.json</em>&#39;s serialization.</p>
 <p>Please note the function <em>respondWithMediaType</em>. You can use this to
 go a different route if someone wants XML vs JSON.  I recommend that
 you always put this on anything that returns JSON so if browser
-demands that type, your service doesn&#39;t erroneously return that it
-can&#39;t do that.</p>
+demands that type, your service doesn&rsquo;t erroneously return that it
+can&rsquo;t do that.</p>
 
-<p>Now that we&#39;re returning data, let&#39;s modify our <em>post</em> call to read
-data.  We&#39;ll return the data with 100 added to the id, and the text
+<p>Now that we&rsquo;re returning data, let&rsquo;s modify our <em>post</em> call to read
+data.  We&rsquo;ll return the data with 100 added to the id, and the text
 <em>posted</em> added to the data.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">post</span> <span class="o">{</span>
     <span class="n">entity</span><span class="o">(</span><span class="n">as</span><span class="o">[</span><span class="kt">Stuff</span><span class="o">])</span> <span class="o">{</span> <span class="n">stuff</span> <span class="k">=&gt;</span>
@@ -354,7 +354,7 @@ to the expression block.</p>
 <h2>Routes with a depth of greater than 1</h2>
 
 <p>So you might decided to do a route <em>junk/mine</em> and <em>junk/yours</em>, and
-your first thought would be to do <em>path(&quot;junk/mine&quot;)</em>.  While
+your first thought would be to do <em>path(&ldquo;junk/mine&rdquo;)</em>.  While
 intuitive, that unfortunately will not work.  When you go into more
 complex paths, Spray utilizes the <em>pathPrefix</em> and <em>pathEnd</em>
 directives.</p>
@@ -374,15 +374,15 @@ directives.</p>
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>It gets very &#39;nesty&#39; but allows you a lot of flexibility in creating
-your routes.  There&#39;s a great more you can do with this, but we&#39;ll
+<p>It gets very &lsquo;nesty&rsquo; but allows you a lot of flexibility in creating
+your routes.  There&rsquo;s a great more you can do with this, but we&rsquo;ll
 leave that for a future blog post or the Spray documentation.  We are
 <strong>trying</strong> to keep this simple.</p>
 
 <h2>Getting query parameters</h2>
 
-<p>At some point, you&#39;re going to want to handle query parameters, both
-required and optional.  We&#39;ll create a route named <em>params</em> that will
+<p>At some point, you&rsquo;re going to want to handle query parameters, both
+required and optional.  We&rsquo;ll create a route named <em>params</em> that will
 take in a required parameter <em>req</em> and an optional parameter <em>opt</em>.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">path</span><span class="o">(</span><span class="s">&quot;params&quot;</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">get</span> <span class="o">{</span>
@@ -395,18 +395,18 @@ take in a required parameter <em>req</em> and an optional parameter <em>opt</em>
 <p>Notice the single tick declaration, and for opt the .?. The .?
 signifies the parameter is optional. You can list as many parameters
 as you want, and they will be provided to the expression as variables
-(the variable names don&#39;t need to be named the same as the query
+(the variable names don&rsquo;t need to be named the same as the query
 params).  If you run this and go to
-http://localhost:8080/params?req=hi&amp;opt=bye your response should be</p>
+<a href="http://localhost:8080/params?req=hi&amp;opt=bye">http://localhost:8080/params?req=hi&amp;opt=bye</a> your response should be</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Req: hi, Opt: Some(bye)
 </code></pre></div>
 <p>So you can see the optional parameter translates to a Scala Option type.</p>
 
 <p>Now hit the url without any query parameters
-(http://localhost:8080/params).  You&#39;ll notice the message is our root
-level get <em>I exist!</em>. This is because it didn&#39;t match against the
+(<a href="http://localhost:8080/params">http://localhost:8080/params</a>).  You&rsquo;ll notice the message is our root
+level get <em>I exist!</em>. This is because it didn&rsquo;t match against the
 required parameters so it fell through to our root <em>get</em>.  However, if
-you comment out our root <em>get</em> you&#39;ll see the following message:</p>
+you comment out our root <em>get</em> you&rsquo;ll see the following message:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Request is missing required query parameter &#39;req&#39;
 </code></pre></div>
 <p>Which is much more useful.  The lesson here is to be careful about how
@@ -443,16 +443,16 @@ an Await.result!</p>
 
 <h2>Packaging your app for deployment</h2>
 
-<p>Now we have our services, we&#39;re ready to deploy them.  For this we
+<p>Now we have our services, we&rsquo;re ready to deploy them.  For this we
 need to instruct SBT on how to package the distribution.  In the
 build.sbt I started with, there was this line</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">lazy</span> <span class="k">val</span> <span class="n">root</span> <span class="k">=</span> <span class="o">(</span><span class="n">project</span> <span class="n">in</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">)).</span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">JavaAppPackaging</span><span class="o">)</span>
 </code></pre></div>
 <p>That uses the sbt-native-packager plugin provided by typesafe.  In
-your project/plugins.sbt, you&#39;ll want to add the following</p>
+your project/plugins.sbt, you&rsquo;ll want to add the following</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.typesafe.sbt&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-native-packager&quot;</span> <span class="o">%</span> <span class="s">&quot;1.0.0&quot;</span><span class="o">)</span>
 </code></pre></div>
-<p>If you run <strong>sbt dist</strong> you&#39;ll end up with a zip file under
+<p>If you run <strong>sbt dist</strong> you&rsquo;ll end up with a zip file under
 target/universal which you can send to the deployment mechanism of
 your choice (for instance, Cloud Foundry).</p>
 
@@ -461,10 +461,10 @@ your choice (for instance, Cloud Foundry).</p>
 <p>As I stated above (ok, WAY above), the code is at
 <a href="https://github.com/MonsantoCo/simple-spray">simple-spray</a>.  Feel free
 to fork it into your own repository and experiment with it.  But the
-building blocks I&#39;ve given you should be able to handle a great deal
+building blocks I&rsquo;ve given you should be able to handle a great deal
 of your requests.</p>
 
-<p>I&#39;ll follow up later with more advanced spray features focusing on
+<p>I&rsquo;ll follow up later with more advanced spray features focusing on
 pathing and unit testing your spray services.</p>
 
 

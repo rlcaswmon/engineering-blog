@@ -131,7 +131,7 @@
 <p>Implicits are difficult to understand because they have many different uses.
 In <a href="http://engineering.monsanto.com/2015/05/14/implicits-intro/">an earlier post</a>,
 we looked at implicit parameters and type tags.
-Now, we&#39;ll take a look at another usage pattern every Scala programmer sees: 
+Now, we&rsquo;ll take a look at another usage pattern every Scala programmer sees: 
 implicits as an alternative to passing the same argument over and over. Scala Futures use implicit parameters in this way.</p>
 
 <p>There is <a href="http://danielwestheide.com/blog/2013/01/09/the-neophytes-guide-to-scala-part-8-welcome-to-the-future.html">much</a> 
@@ -141,10 +141,10 @@ Futures let us spin off work into other threads, add more operations that should
 define what should happen after failure, and (if we really must) wait for the operation to complete.</p>
 
 <p>Everything we do asynchronously happens on some other thread. 
-Creating a future, adding operations after success, adding failure handling -- in each case, we need to tell it what thread to run on. 
+Creating a future, adding operations after success, adding failure handling &ndash; in each case, we need to tell it what thread to run on. 
 The futures library lets us specify this using implicit parameters.</p>
 
-<p>For illustration, let&#39;s define some data types and a fake Data Access Object with the following operations:</p>
+<p>For illustration, let&rsquo;s define some data types and a fake Data Access Object with the following operations:</p>
 
 <div class="highlight"><pre><code class="language-scala" data-lang="scala">case class Employee(id:Int, name:String)
 case class Role(name:String, department :String)
@@ -157,7 +157,7 @@ trait EmployeeGrabberBabber {
   def <span class="futureMethods">role</span>(employee :Employee)(<span class="implicit">implicit e :ExecutionContext</span>) :Future[Role]
 }</code></pre></div>
 
-<p>I have <a href="https://gist.github.com/hibikir/5793ffe80c545f9971d1">an implementation</a> for that trait, but it&#39;s not that important.</p>
+<p>I have <a href="https://gist.github.com/hibikir/5793ffe80c545f9971d1">an implementation</a> for that trait, but it&rsquo;s not that important.</p>
 
 <p><span class="raw">The first two methods</span> do synchronous IO: Whenever we call them, our thread will patiently wait until we get the requested information, leaving our thread blocked.
 <span class="futureMethods">The second pair</span> uses Futures: <span class="futureMethods">employee</span>
@@ -170,10 +170,10 @@ trait EmployeeGrabberBabber {
 val role = grabber.<span class="raw">rawRole</span>(employee)
 val bigEmployee = EmployeeWithRole(employee.id,employee.name,role)</code></pre></div></p>
 
-<p>This is imperative programming. It holds up the calling thread until the entire calculation is made. You probably don&#39;t want to do this in a web application 
+<p>This is imperative programming. It holds up the calling thread until the entire calculation is made. You probably don&rsquo;t want to do this in a web application 
 or in an event thread in a native UI toolkit.</p>
 
-<p>In contrast, the <span class="futureMethods">asynchronous methods</span> return instantly. We can keep right on defining what to do with the value -- inside the context of the Future.</p>
+<p>In contrast, the <span class="futureMethods">asynchronous methods</span> return instantly. We can keep right on defining what to do with the value &ndash; inside the context of the Future.</p>
 
 <div class="highlight"><pre><code class="language-scala" data-lang="scala">val bigEmployee: Future[EmployeeWithRole] =
   grabber.<span class="futureMethods">employee</span>(100).flatMap { e =>
@@ -198,11 +198,11 @@ or import scala.concurrent.ExecutionContext.Implicits.global.
     grabber.<span class="futureMethods">employee</span>(100).flatMap { e =&gt;
                     ^</code></pre></div></p>
 
-<p>That&#39;s a useful error message! While we could just add the import, we&#39;d not learn much from doing that, so let&#39;s dig deeper.</p>
+<p>That&rsquo;s a useful error message! While we could just add the import, we&rsquo;d not learn much from doing that, so let&rsquo;s dig deeper.</p>
 
 <p>Creating a Future starts an asynchronous operation on another thread. The ExecutionContext provides the thread pool that Future will use.
 Different execution contexts wrap different thread pools, with different properties.
-The one that the errors suggest, Scala&#39;s <a href="http://blog.jessitron.com/2014/02/scala-global-executioncontext-makes.html">global execution context</a>, suits us for now.</p>
+The one that the errors suggest, Scala&rsquo;s <a href="http://blog.jessitron.com/2014/02/scala-global-executioncontext-makes.html">global execution context</a>, suits us for now.</p>
 
 <p><span class="futureMethods">The Future-creating methods</span> declare two parameter lists. We can be perfectly clear about which ExecutionContext each should use by passing it explicitly:
 <div class="highlight"><pre><code class="language-scala" data-lang="scala">val <span class="ec">ec</span> =  scala.concurrent.ExecutionContext.Implicits.global
@@ -213,7 +213,7 @@ val bigEmployee: Future[EmployeeWithRole] =
     }
   }</code></pre></div></p>
 
-<p>But that doesn&#39;t work either!
+<p>But that doesn&rsquo;t work either!
 <div class="highlight"><pre><code class="language-scala" data-lang="scala">
 Error: Cannot find an <span class="implicit">implicit ExecutionContext</span>. You might pass
 an (implicit ec: ExecutionContext) parameter to your method
@@ -231,8 +231,8 @@ val bigEmployee: Future[EmployeeWithRole] =
     }(<span class="ec">ec</span>)
   }(<span class="ec">ec</span>)</code></pre></div>
 
-<p>So now it&#39;s happy, and it&#39;s very clear which ExecutionContext every operation runs in. 
-But I&#39;m not happy, because it&#39;s repetitive and cluttered. It gets even more cluttered,
+<p>So now it&rsquo;s happy, and it&rsquo;s very clear which ExecutionContext every operation runs in. 
+But I&rsquo;m not happy, because it&rsquo;s repetitive and cluttered. It gets even more cluttered,
  the more things we call on a Future. Just look at these signatures from the <a href="http://www.scala-lang.org/api/2.10.1/index.html#scala.concurrent.Future">Future API</a>:
 <div class="highlight"><pre><code>    def onSuccess[U](pf : PartialFunction[T, U])(<span class="implicit">implicit executor : ExecutionContext</span>)
     def onFailure[U](callback : PartialFunction[Throwable, U])(<span class="implicit">implicit executor : ExecutionContext</span>) 
@@ -248,7 +248,7 @@ But I&#39;m not happy, because it&#39;s repetitive and cluttered. It gets even m
     def recoverWith[U &gt;: T](pf : PartialFunction[Throwable, Future[U]])(<span class="implicit">implicit executor : ExecutionContext</span>) : Future[U]
     def andThen[U](pf : PartialFunction[Try[T], U])(<span class="implicit">implicit executor : ExecutionContext</span>) : Future[T]</code></pre></div></p>
 
-<p><span class="implicit">ExecutionContexts</span> everywhere. They&#39;re important, and sometimes we need to be specific about where each operation should run,
+<p><span class="implicit">ExecutionContexts</span> everywhere. They&rsquo;re important, and sometimes we need to be specific about where each operation should run,
  but the common case is that they can all run in the same pool. It is tedious, cluttered, and error-prone to repeat
 that same bit of information over and over.</p>
 
@@ -259,7 +259,7 @@ that same bit of information over and over.</p>
 
 <p><img src="/img/magic_hat.png" alt="Trixie&#39;s magic hat"></p>
 
-<p>If it&#39;s ok to use all those threads in the same pool, 
+<p>If it&rsquo;s ok to use all those threads in the same pool, 
 then we can supply the execution context <span class="implicitDecl">implicitly</span>, which puts it in the magic hat:
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="implicitDecl">implicit val</span> <span class="ec">ec</span>: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
 val bigEmployee: Future[EmployeeWithRole] =
@@ -271,7 +271,7 @@ val bigEmployee: Future[EmployeeWithRole] =
 </code></pre></div></p>
 
 <p>Here, the <span class="implicitDecl">implicit</span> keyword is serving a different (but related) purpose than it did in the parameter list. 
-The <span class="implicitDecl">implicit val</span> goes into the compiler&#39;s magic hat for as long as that value is in scope.
+The <span class="implicitDecl">implicit val</span> goes into the compiler&rsquo;s magic hat for as long as that value is in scope.
  The compiler can use it anywhere it needs to supply an <span class="implicit">implicit parameter</span> of type ExecutionContext, over and over.</p>
 
 <p>This lets us use for-comprehensions too, which take the place of flatmap and map:
@@ -283,10 +283,10 @@ val employeeWithRole = for { employee &lt;- grabber.<span class="futureMethods">
 <p>Much cleaner.</p>
 
 <p>This implicit-parameter-supplying feature only works if there is exactly one
-<span class="implicitDecl">value</span> of the needed type in the compiler&#39;s magic hat when the method that
+<span class="implicitDecl">value</span> of the needed type in the compiler&rsquo;s magic hat when the method that
 declares the <span class="implicit">implicit parameter</span> is called.  If none are available, you get that
-&quot;Cannot find an implicit&quot; compile error. If more than one are available,
-you get an &quot;ambiguous implicit&quot; error</p>
+&ldquo;Cannot find an implicit&rdquo; compile error. If more than one are available,
+you get an &ldquo;ambiguous implicit&rdquo; error</p>
 
 <p>Of the many ways to get values into the magic hat, three make sense for the
 ExecutionContext. The simplest is to declare an <span class="implicitDecl">implicit val</span>, as above.  It
@@ -313,8 +313,8 @@ chooses the default execution context for asynchronous operations.</p>
 <p>Any way you do it, one <span class="implicitDecl">implicit value</span> declaration saves repetition, 
 providing a default per scope while allowing an override at each function call. 
 The authors of the Future library put the ExecutionContext into an <span class="implicit">implicit parameter</span> for this reason:
-it&#39;s common to repeat the same value, common to pass it down through various methods,
-and essential that it be explicitly passed sometimes, at the caller&#39;s discretion.
+it&rsquo;s common to repeat the same value, common to pass it down through various methods,
+and essential that it be explicitly passed sometimes, at the caller&rsquo;s discretion.
 In this way, Scala lets library designers keep the interface clean and flexible at the same time. </p>
 
 

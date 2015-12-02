@@ -122,11 +122,11 @@
 
 <h2>Why not re-use an existing solution?</h2>
 
-<p>There are open source UI&#39;s available in the community, most notably the <a href="https://github.com/cloudfoundry-incubator/admin-ui">admin-ui</a> project, which we do utilize for our environments.  But the admin-ui project is truly an admin interface, requiring logins and admin level privileges to interact with the system.  CF-Portal is meant to supplement the admin-ui project by providing an anonymous, read-only view into your Cloud Foundry application landscape for consumption by CF end-users.</p>
+<p>There are open source UI&rsquo;s available in the community, most notably the <a href="https://github.com/cloudfoundry-incubator/admin-ui">admin-ui</a> project, which we do utilize for our environments.  But the admin-ui project is truly an admin interface, requiring logins and admin level privileges to interact with the system.  CF-Portal is meant to supplement the admin-ui project by providing an anonymous, read-only view into your Cloud Foundry application landscape for consumption by CF end-users.</p>
 
 <h2>Does cloud foundry even need a UI?</h2>
 
-<p>The <a href="https://github.com/cloudfoundry/cli">CF CLI</a> is powerful, extensible, and, for a large chunk of CF developers, it&#39;s their sole point of interaction with the system.  But there are still use cases where having a UI comes in handy. Sometimes we need to expose data which can be accessed by non-developers, for example people who don&#39;t have an account in CF such as release managers or a level one support agent.  And even with access to the CF CLI, some tasks such as searching or aggregating output are difficult and would require elevated permissions.</p>
+<p>The <a href="https://github.com/cloudfoundry/cli">CF CLI</a> is powerful, extensible, and, for a large chunk of CF developers, it&rsquo;s their sole point of interaction with the system.  But there are still use cases where having a UI comes in handy. Sometimes we need to expose data which can be accessed by non-developers, for example people who don&rsquo;t have an account in CF such as release managers or a level one support agent.  And even with access to the CF CLI, some tasks such as searching or aggregating output are difficult and would require elevated permissions.</p>
 
 <h2>Design Requirements</h2>
 
@@ -135,12 +135,12 @@
 <ul>
 <li>Anonymous Access - The portal should be available without requiring user authentication.  Because of this we also must ensure that the application displays only non-sensitive data and has read-only capabilities.</li>
 <li>Searchable View of the Application Landscape - The portal should allow any user to view how many applications are in any given (CF|org|space) as well as quickly determine which org and space a specific application belongs to.</li>
-<li>Bare Bones Troubleshooting - The portal should quickly allow users to determine the state of an application such as if it&#39;s up or down and how long it&#39;s been running.  It should also show basic audit information such as recent application logs and audit events.</li>
+<li>Bare Bones Troubleshooting - The portal should quickly allow users to determine the state of an application such as if it&rsquo;s up or down and how long it&rsquo;s been running.  It should also show basic audit information such as recent application logs and audit events.</li>
 </ul>
 
 <h2>The Result</h2>
 
-<p>The portal has two views, a summary view of all applications deployed to the Cloud Foundry environment and a detail view for each app showing some basic application specific stats.  The data for the summary view is gathered every 5 minutes and cached locally for best responsiveness.  The top right corner includes a search bar to quickly find the high level details of an application and clicking on any row allows you to drill down to the detail page for that application. If you&#39;re used to the CF CLI, its similar to what you&#39;d get from running <code>cf apps</code> in every space.  </p>
+<p>The portal has two views, a summary view of all applications deployed to the Cloud Foundry environment and a detail view for each app showing some basic application specific stats.  The data for the summary view is gathered every 5 minutes and cached locally for best responsiveness.  The top right corner includes a search bar to quickly find the high level details of an application and clicking on any row allows you to drill down to the detail page for that application. If you&rsquo;re used to the CF CLI, its similar to what you&rsquo;d get from running <code>cf apps</code> in every space.  </p>
 
 <p><img src="/img/cfportal-home.png" alt="Home Page"></p>
 
@@ -148,7 +148,7 @@
 
 <p><img src="/img/cfportal-detail.png" alt="Detail Page"></p>
 
-<p>If you&#39;re using Cloud Foundry and you have the need for an intuitive UI, please jump over to the project repo and give <a href="https://github.com/MonsantoCo/cf-portal">CF-Portal</a> a try.  And as always we encourage comments and pull requests to continue making our tools better.</p>
+<p>If you&rsquo;re using Cloud Foundry and you have the need for an intuitive UI, please jump over to the project repo and give <a href="https://github.com/MonsantoCo/cf-portal">CF-Portal</a> a try.  And as always we encourage comments and pull requests to continue making our tools better.</p>
 
 
                 
