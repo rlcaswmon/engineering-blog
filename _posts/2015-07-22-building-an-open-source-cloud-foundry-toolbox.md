@@ -8,7 +8,7 @@ authors:
         name: Mark Seidenstricker 
         githubProfile : "mjseid"
         avatarUrl : "https://avatars2.githubusercontent.com/u/4573660?v=3"
-tags: [open source, cloudfoundry, cf-portal]
+tags: [open source, cloudfoundry, cf-portal, cf-users]
 ---
 
 The age of cloud computing is already here, and companies who don't adapt are at serious risk of getting left in the dust.  At Monsanto we have fully embraced the transformation this revolution has brought and are diligently on the path towards a modern IT landscape focused around public cloud, microservices, open source technologies, and [12 factor apps](http://12factor.net/).  Transformations however, rarely happen overnight and like most enterprise companies we were starting the journey with a datacenter full of legacy and not-so-cloudy apps.  So our first step was to adopt
@@ -19,5 +19,5 @@ We've been using Cloud Foundry for over a year now, and the core project is fair
 Starting with [CF-Portal](https://github.com/MonsantoCo/cf-portal), we will be doing a multi-part blog post over the coming weeks for each tool corresponding with its public release.  We hope these are useful to others using the platform, and we look forward to feedback and contribution to continue growing the Cloud Foundry community toolbox.
 
 * [CF-Portal](https://github.com/MonsantoCo/cf-portal): A Single Pane of Glass for Cloud Foundry Apps
-* CF-Users: Self Service Team Management for Cloud Foundry
+* [CF-Users](https://github.com/MonsantoCo/cf-users): Self Service Team Management for Cloud Foundry
 * [CF-Metrics](https://github.com/MonsantoCo/cf-metrics): Open Source Monitoring and Alerting for Cloud Foundry
